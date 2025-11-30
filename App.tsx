@@ -260,6 +260,9 @@ const App: React.FC = () => {
             Learn Anthropic's Model Context Protocol through a narrative-driven
             and interactive learning experience.
           </p>
+          <p className='max-w-2xl mx-auto text-lg md:text-xl text-stone-700 font-light leading-relaxed mb-12'>
+            Jiayu He, Sherry Ruan, James Landay
+          </p>
 
           <div className='flex justify-center gap-6'>
             <a
