@@ -18,6 +18,8 @@ import {
   Clock,
   Scale,
   Sparkles,
+  AtSign,
+  MessageSquare,
 } from "lucide-react";
 
 const FeatureCard = ({
@@ -71,7 +73,12 @@ const NavigationButton: React.FC<{ targetId: string }> = ({ targetId }) => {
   const scrollToNext = () => {
     const element = document.getElementById(targetId);
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+      const elementTop = element.offsetTop;
+
+      window.scrollTo({
+        top: elementTop,
+        behavior: "smooth",
+      });
     }
   };
 
@@ -93,11 +100,33 @@ const App: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedPedagogy, setSelectedPedagogy] = useState(0);
   const [presentationMode, setPresentationMode] = useState(false);
+  const [showNav, setShowNav] = useState(true);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+      // Hide nav when scrolled down
+      if (window.scrollY > 100) {
+        setShowNav(false);
+      }
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      // Show nav when mouse is near the top (within 100px)
+      if (e.clientY < 100) {
+        setShowNav(true);
+      } else if (window.scrollY > 100) {
+        setShowNav(false);
+      }
+    };
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
   }, []);
 
   useEffect(() => {
@@ -131,9 +160,11 @@ const App: React.FC = () => {
           scrolled
             ? "bg-[#F9F8F4]/90 backdrop-blur-md shadow-sm py-4"
             : "bg-transparent py-6"
+        } ${
+          showNav ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
         }`}
       >
-        <div className='container mx-auto px-6 flex justify-between items-center'>
+        <div className='container mx-auto px-8 md:px-16 flex justify-between items-center'>
           <div
             className='flex items-center gap-4 cursor-pointer'
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
@@ -249,7 +280,7 @@ const App: React.FC = () => {
         {/* Gradient Overlay */}
         <div className='absolute inset-0 z-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(249,248,244,0.92)_0%,rgba(249,248,244,0.6)_50%,rgba(249,248,244,0.3)_100%)]' />
 
-        <div className='relative z-10 container mx-auto px-6 text-center'>
+        <div className='relative z-10 container mx-auto px-8 md:px-16 text-center'>
           <div className='inline-block mb-4 px-3 py-1 border border-nobel-gold text-nobel-gold text-xs tracking-[0.2em] uppercase font-bold rounded-full backdrop-blur-sm bg-white/30'>
             NeurIPS 2025 • Education Materials
           </div>
@@ -265,16 +296,23 @@ const App: React.FC = () => {
           </p>
 
           <div className='flex justify-center gap-6'>
-            <a
-              href='#overview'
-              onClick={scrollToSection("overview")}
+            <button
+              onClick={() => {
+                const element = document.getElementById("overview");
+                if (element) {
+                  window.scrollTo({
+                    top: element.offsetTop,
+                    behavior: "smooth",
+                  });
+                }
+              }}
               className='group flex flex-col items-center gap-2 text-sm font-medium text-stone-500 hover:text-stone-900 transition-colors cursor-pointer'
             >
               <span>EXPLORE</span>
               <span className='p-2 border border-stone-300 rounded-full group-hover:border-stone-900 transition-colors bg-white/50'>
                 <ArrowDown size={16} />
               </span>
-            </a>
+            </button>
           </div>
         </div>
       </header>
@@ -283,12 +321,12 @@ const App: React.FC = () => {
         {/* Overview */}
         <section
           id='overview'
-          className={`bg-white relative ${
+          className={`bg-white relative min-h-screen flex flex-col justify-center ${
             presentationMode ? "py-16 overflow-hidden" : "py-24"
           }`}
         >
           <div
-            className={`container mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-12 gap-12 items-start`}
+            className={`container mx-auto px-8 md:px-16 grid grid-cols-1 md:grid-cols-12 gap-12 items-start`}
           >
             <div className='md:col-span-4'>
               <div className='inline-block mb-3 text-xs font-bold tracking-widest text-stone-500 uppercase'>
@@ -331,17 +369,15 @@ const App: React.FC = () => {
               </div>
             </div>
           </div>
-          {presentationMode && (
-            <div className='absolute bottom-8 left-0 right-0 flex justify-center'>
-              <NavigationButton targetId='challenge' />
-            </div>
-          )}
+          <div className='absolute bottom-8 right-8'>
+            <NavigationButton targetId='challenge' />
+          </div>
         </section>
 
         {/* The Challenge */}
         <section
           id='challenge'
-          className={`bg-stone-900 text-stone-100 relative ${
+          className={`bg-stone-900 text-stone-100 relative min-h-screen flex flex-col justify-center ${
             presentationMode ? "py-16 overflow-hidden" : "py-32 overflow-hidden"
           }`}
         >
@@ -350,7 +386,7 @@ const App: React.FC = () => {
           <div className='absolute bottom-0 left-0 w-[400px] h-[400px] bg-stone-600/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3'></div>
 
           <div
-            className={`container mx-auto px-6 relative z-10`}
+            className={`container mx-auto px-8 md:px-16 relative z-10`}
           >
             <div className='max-w-5xl mx-auto'>
               {/* Icon & Label */}
@@ -439,17 +475,15 @@ const App: React.FC = () => {
               </div>
             </div>
           </div>
-          {presentationMode && (
-            <div className='absolute bottom-8 left-0 right-0 flex justify-center z-20'>
-              <NavigationButton targetId='innovation' />
-            </div>
-          )}
+          <div className='absolute bottom-8 right-8 z-20'>
+            <NavigationButton targetId='innovation' />
+          </div>
         </section>
 
         {/* AI-Powered Educational Innovation */}
         <section
           id='innovation'
-          className={`bg-gradient-to-br from-stone-50 via-[#F9F8F4] to-stone-100 relative ${
+          className={`bg-gradient-to-br from-stone-50 via-[#F9F8F4] to-stone-100 relative min-h-screen flex flex-col justify-center ${
             presentationMode ? "py-16 overflow-hidden" : "py-24 overflow-hidden"
           }`}
         >
@@ -460,16 +494,16 @@ const App: React.FC = () => {
           </div>
 
           <div
-            className={`container mx-auto px-6 relative z-10`}
+            className={`container mx-auto px-8 md:px-16 relative z-10`}
           >
-            <div className='text-center mb-16'>
-              <div className='inline-flex items-center gap-2 px-3 py-1 bg-white/80 backdrop-blur-sm text-nobel-gold text-xs font-bold tracking-widest uppercase rounded-full mb-6 border border-stone-200'>
+            <div className='text-center mb-8'>
+              <div className='inline-flex items-center gap-2 px-3 py-1 bg-white/80 backdrop-blur-sm text-nobel-gold text-xs font-bold tracking-widest uppercase rounded-full mb-4 border border-stone-200'>
                 <Lightbulb size={14} /> SECONDARY GOAL
               </div>
-              <h2 className='font-serif text-4xl md:text-5xl mb-6 text-stone-900'>
+              <h2 className='font-serif text-3xl md:text-4xl mb-4 text-stone-900'>
                 AI-Powered Educational Innovation
               </h2>
-              <p className='text-lg text-stone-600 max-w-3xl mx-auto mb-12'>
+              <p className='text-base text-stone-600 max-w-3xl mx-auto mb-6'>
                 Beyond teaching students about AI, this project demonstrates how
                 AI tools can empower educators to create engaging learning
                 experiences rapidly.
@@ -477,8 +511,8 @@ const App: React.FC = () => {
             </div>
 
             <div className='max-w-4xl mx-auto'>
-              <div className='bg-white/60 backdrop-blur-sm border border-stone-200 rounded-xl p-8 md:p-12 shadow-sm'>
-                <p className='text-lg text-stone-600 leading-relaxed mb-6'>
+              <div className='bg-white/60 backdrop-blur-sm border border-stone-200 rounded-xl p-6 md:p-8 shadow-sm'>
+                <p className='text-base text-stone-600 leading-relaxed mb-4'>
                   The entire MCP Explorer platform—from interactive
                   visualizations to the presentation you're viewing—was
                   developed with the assistance of{" "}
@@ -489,7 +523,7 @@ const App: React.FC = () => {
                   bring their pedagogical visions to life efficiently and
                   effectively.
                 </p>
-                <p className='text-lg text-stone-600 leading-relaxed'>
+                <p className='text-base text-stone-600 leading-relaxed'>
                   This project serves as a proof of concept that educators, even
                   those without extensive programming backgrounds, can harness
                   AI assistance to build sophisticated, interactive learning
@@ -498,50 +532,48 @@ const App: React.FC = () => {
                 </p>
               </div>
 
-              <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mt-12'>
-                <div className='text-center p-6 bg-white/60 backdrop-blur-sm border border-stone-200 rounded-lg shadow-sm'>
-                  <div className='text-3xl font-serif text-nobel-gold mb-2'>
+              <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mt-6'>
+                <div className='text-center p-4 bg-white/60 backdrop-blur-sm border border-stone-200 rounded-lg shadow-sm'>
+                  <div className='text-2xl font-serif text-nobel-gold mb-1'>
                     Fast
                   </div>
-                  <div className='text-sm text-stone-600 uppercase tracking-wide'>
+                  <div className='text-xs text-stone-600 uppercase tracking-wide'>
                     Rapid Development
                   </div>
                 </div>
-                <div className='text-center p-6 bg-white/60 backdrop-blur-sm border border-stone-200 rounded-lg shadow-sm'>
-                  <div className='text-3xl font-serif text-nobel-gold mb-2'>
+                <div className='text-center p-4 bg-white/60 backdrop-blur-sm border border-stone-200 rounded-lg shadow-sm'>
+                  <div className='text-2xl font-serif text-nobel-gold mb-1'>
                     Accessible
                   </div>
-                  <div className='text-sm text-stone-600 uppercase tracking-wide'>
+                  <div className='text-xs text-stone-600 uppercase tracking-wide'>
                     No Deep Tech Skills
                   </div>
                 </div>
-                <div className='text-center p-6 bg-white/60 backdrop-blur-sm border border-stone-200 rounded-lg shadow-sm'>
-                  <div className='text-3xl font-serif text-nobel-gold mb-2'>
+                <div className='text-center p-4 bg-white/60 backdrop-blur-sm border border-stone-200 rounded-lg shadow-sm'>
+                  <div className='text-2xl font-serif text-nobel-gold mb-1'>
                     Engaging
                   </div>
-                  <div className='text-sm text-stone-600 uppercase tracking-wide'>
+                  <div className='text-xs text-stone-600 uppercase tracking-wide'>
                     Interactive & Visual
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          {presentationMode && (
-            <div className='absolute bottom-8 left-0 right-0 flex justify-center z-20'>
-              <NavigationButton targetId='pedagogy' />
-            </div>
-          )}
+          <div className='absolute bottom-8 right-8 z-20'>
+            <NavigationButton targetId='pedagogy' />
+          </div>
         </section>
 
         {/* Our Process */}
         <section
           id='pedagogy'
-          className={`bg-white border-t border-stone-100 relative ${
+          className={`bg-white relative min-h-screen flex flex-col justify-center ${
             presentationMode ? "py-16 overflow-hidden" : "py-24"
           }`}
         >
           <div
-            className={`container mx-auto px-6`}
+            className={`container mx-auto px-8 md:px-16`}
           >
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-16 items-center'>
               <div>
@@ -597,111 +629,109 @@ const App: React.FC = () => {
               </div>
             </div>
           </div>
-          {presentationMode && (
-            <div className='absolute bottom-8 left-0 right-0 flex justify-center z-20'>
-              <NavigationButton targetId='pedagogies' />
-            </div>
-          )}
+          <div className='absolute bottom-8 right-8 z-20'>
+            <NavigationButton targetId='pedagogies' />
+          </div>
         </section>
 
         {/* Pedagogical Approaches */}
         <section
           id='pedagogies'
-          className={`bg-[#F5F4F0] border-t border-stone-300 relative ${
+          className={`bg-[#F5F4F0] relative min-h-screen flex flex-col justify-center ${
             presentationMode ? "py-16 overflow-hidden" : "py-24"
           }`}
         >
           <div
-            className={`container mx-auto px-6`}
+            className={`container mx-auto px-8 md:px-16`}
           >
-            <div className='text-center mb-16'>
-              <div className='inline-block mb-3 text-xs font-bold tracking-widest text-stone-500 uppercase'>
+            <div className='text-center mb-8'>
+              <div className='inline-block mb-2 text-xs font-bold tracking-widest text-stone-500 uppercase'>
                 PEDAGOGICAL FRAMEWORK
               </div>
-              <h2 className='font-serif text-4xl md:text-5xl mb-4 text-stone-900'>
+              <h2 className='font-serif text-3xl md:text-4xl mb-3 text-stone-900'>
                 Pedagogies
               </h2>
-              <p className='text-stone-500 max-w-2xl mx-auto'>
+              <p className='text-sm text-stone-500 max-w-2xl mx-auto'>
                 Research-backed pedagogies that transform abstract AI concepts
                 into concrete, memorable learning experiences.
               </p>
             </div>
 
-            <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto'>
+            <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl mx-auto'>
               {/* Interactive Cards */}
-              <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+              <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
                 <button
                   onClick={() => setSelectedPedagogy(0)}
-                  className={`p-6 rounded-xl text-left transition-all duration-300 ${
+                  className={`p-4 rounded-xl text-left transition-all duration-300 ${
                     selectedPedagogy === 0
                       ? "bg-white border-2 border-nobel-gold shadow-lg"
                       : "bg-white border border-stone-200 hover:shadow-md"
                   }`}
                 >
-                  <div className='w-12 h-12 bg-nobel-gold/10 rounded-lg flex items-center justify-center mb-4'>
-                    <BookOpen className='text-nobel-gold' size={20} />
+                  <div className='w-10 h-10 bg-nobel-gold/10 rounded-lg flex items-center justify-center mb-3'>
+                    <BookOpen className='text-nobel-gold' size={18} />
                   </div>
-                  <div className='font-serif text-xl text-stone-900 mb-2'>
+                  <div className='font-serif text-lg text-stone-900 mb-1'>
                     Narrative-Driven
                   </div>
-                  <div className='text-sm text-stone-600 leading-relaxed'>
+                  <div className='text-xs text-stone-600 leading-relaxed'>
                     Story-based learning with relatable scenarios
                   </div>
                 </button>
 
                 <button
                   onClick={() => setSelectedPedagogy(1)}
-                  className={`p-6 rounded-xl text-left transition-all duration-300 ${
+                  className={`p-4 rounded-xl text-left transition-all duration-300 ${
                     selectedPedagogy === 1
                       ? "bg-white border-2 border-nobel-gold shadow-lg"
                       : "bg-white border border-stone-200 hover:shadow-md"
                   }`}
                 >
-                  <div className='w-12 h-12 bg-nobel-gold/10 rounded-lg flex items-center justify-center mb-4'>
-                    <Zap className='text-nobel-gold' size={20} />
+                  <div className='w-10 h-10 bg-nobel-gold/10 rounded-lg flex items-center justify-center mb-3'>
+                    <Zap className='text-nobel-gold' size={18} />
                   </div>
-                  <div className='font-serif text-xl text-stone-900 mb-2'>
+                  <div className='font-serif text-lg text-stone-900 mb-1'>
                     Cognitive Load Theory
                   </div>
-                  <div className='text-sm text-stone-600 leading-relaxed'>
+                  <div className='text-xs text-stone-600 leading-relaxed'>
                     Surface relevant information at the right time.
                   </div>
                 </button>
 
                 <button
                   onClick={() => setSelectedPedagogy(2)}
-                  className={`p-6 rounded-xl text-left transition-all duration-300 ${
+                  className={`p-4 rounded-xl text-left transition-all duration-300 ${
                     selectedPedagogy === 2
                       ? "bg-white border-2 border-nobel-gold shadow-lg"
                       : "bg-white border border-stone-200 hover:shadow-md"
                   }`}
                 >
-                  <div className='w-12 h-12 bg-nobel-gold/10 rounded-lg flex items-center justify-center mb-4'>
-                    <Lightbulb className='text-nobel-gold' size={20} />
+                  <div className='w-10 h-10 bg-nobel-gold/10 rounded-lg flex items-center justify-center mb-3'>
+                    <Lightbulb className='text-nobel-gold' size={18} />
                   </div>
-                  <div className='font-serif text-xl text-stone-900 mb-2'>
+                  <div className='font-serif text-lg text-stone-900 mb-1'>
                     Constructivist
                   </div>
-                  <div className='text-sm text-stone-600 leading-relaxed'>
+                  <div className='text-xs text-stone-600 leading-relaxed'>
                     Active exploration and hands-on learning
                   </div>
                 </button>
 
                 <button
                   onClick={() => setSelectedPedagogy(3)}
-                  className={`p-6 rounded-xl text-left transition-all duration-300 ${
+                  className={`p-4 rounded-xl text-left transition-all duration-300 ${
                     selectedPedagogy === 3
                       ? "bg-white border-2 border-nobel-gold shadow-lg"
                       : "bg-white border border-stone-200 hover:shadow-md"
                   }`}
                 >
-                  <div className='w-12 h-12 bg-nobel-gold/10 rounded-lg flex items-center justify-center mb-4'>
-                    <Scale className='text-nobel-gold' size={20} />
+                  <div className='w-10 h-10 bg-nobel-gold/10 rounded-lg flex items-center justify-center mb-3'>
+                    <Scale className='text-nobel-gold' size={18} />
                   </div>
-                  <div className='font-serif text-xl text-stone-900 mb-2'>
+                  <div className='font-serif text-lg text-stone-900 mb-1'>
                     Scaffolding
                   </div>
-                  <div className='text-sm text-stone-600 leading-relaxed'>
+                  <div className='text-xs text-stone-600 leading-relaxed'>
                     Less hand-holding as learners progress.
                   </div>
                 </button>
@@ -709,14 +739,14 @@ const App: React.FC = () => {
 
               {/* Display Box */}
               <div className='bg-white rounded-xl border-2 border-stone-200 shadow-lg overflow-hidden'>
-                <div className='p-6 border-b border-stone-200 bg-stone-50'>
-                  <h3 className='font-serif text-xl text-stone-900 mb-3'>
+                <div className='p-4 border-b border-stone-200 bg-stone-50'>
+                  <h3 className='font-serif text-lg text-stone-900 mb-2'>
                     {selectedPedagogy === 0 && "Narrative-Driven Learning"}
                     {selectedPedagogy === 1 && "Cognitive Load Theory"}
                     {selectedPedagogy === 2 && "Constructivist Learning"}
                     {selectedPedagogy === 3 && "Scaffolding"}
                   </h3>
-                  <p className='text-sm text-stone-600 leading-relaxed'>
+                  <p className='text-xs text-stone-600 leading-relaxed'>
                     {selectedPedagogy === 0 &&
                       "Students connect with Sam, a relatable high school character facing real-world problems that MCP can solve."}
                     {selectedPedagogy === 1 &&
@@ -760,17 +790,15 @@ const App: React.FC = () => {
               </div>
             </div>
           </div>
-          {presentationMode && (
-            <div className='absolute bottom-8 left-0 right-0 flex justify-center z-20'>
-              <NavigationButton targetId='insights' />
-            </div>
-          )}
+          <div className='absolute bottom-8 right-8 z-20'>
+            <NavigationButton targetId='insights' />
+          </div>
         </section>
 
         {/* Insights */}
         <section
           id='insights'
-          className={`bg-white border-t border-stone-200 relative ${
+          className={`bg-white relative min-h-screen flex flex-col justify-center ${
             presentationMode ? "py-16 overflow-hidden" : "py-24 overflow-hidden"
           }`}
         >
@@ -780,7 +808,7 @@ const App: React.FC = () => {
             <div className='w-96 h-96 rounded-full bg-nobel-gold blur-[100px] absolute bottom-[-100px] right-[-100px]'></div>
           </div>
 
-          <div className='container mx-auto px-6 relative z-10'>
+          <div className='container mx-auto px-8 md:px-16 relative z-10'>
             <div className='text-center mb-16'>
               <div className='inline-flex items-center gap-2 px-3 py-1 bg-stone-100 text-nobel-gold text-xs font-bold tracking-widest uppercase rounded-full mb-6 border border-stone-200'>
                 INSIGHTS
@@ -831,11 +859,52 @@ const App: React.FC = () => {
               />
             </div>
           </div>
+          <div className='absolute bottom-8 right-8 z-20'>
+            <NavigationButton targetId='follow' />
+          </div>
+        </section>
+
+        {/* Follow Us Section */}
+        <section id='follow' className='bg-gradient-to-br from-stone-100 to-stone-50 relative min-h-screen flex flex-col justify-center'>
+          <div className='container mx-auto px-8 md:px-16'>
+            <div className='max-w-4xl mx-auto text-center'>
+              <div className='inline-flex items-center gap-2 px-3 py-1 bg-white text-nobel-gold text-xs font-bold tracking-widest uppercase rounded-full mb-6 border border-stone-200 shadow-sm'>
+                <MessageSquare size={14} /> GET IN TOUCH
+              </div>
+              <h2 className='font-serif text-3xl md:text-4xl mb-4 text-stone-900'>
+                Follow Us & Share Your Feedback
+              </h2>
+              <p className='text-base text-stone-600 mb-8 max-w-2xl mx-auto'>
+                Connect with us on X (Twitter) and share your thoughts on making AI education more accessible.
+              </p>
+
+              <div className='flex flex-col sm:flex-row gap-4 justify-center items-center'>
+                <a
+                  href='https://x.com/ruansherry'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='group flex items-center gap-1 px-6 py-3 bg-white border-2 border-stone-900 rounded-full hover:bg-stone-900 hover:text-white transition-all duration-300 shadow-sm min-w-[200px] justify-center'
+                >
+                  <AtSign size={18} className='group-hover:scale-110 transition-transform' />
+                  <span className='font-medium'>ruansherry</span>
+                </a>
+                <a
+                  href='https://x.com/landay'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className='group flex items-center gap-1 px-6 py-3 bg-white border-2 border-stone-900 rounded-full hover:bg-stone-900 hover:text-white transition-all duration-300 shadow-sm min-w-[200px] justify-center'
+                >
+                  <AtSign size={18} className='group-hover:scale-110 transition-transform' />
+                  <span className='font-medium'>landay</span>
+                </a>
+              </div>
+            </div>
+          </div>
         </section>
       </main>
 
       <footer className='bg-stone-900 text-stone-400 py-16'>
-        <div className='container mx-auto px-6'>
+        <div className='container mx-auto px-8 md:px-16'>
           <div className='flex flex-col md:flex-row justify-between items-center gap-8 mb-12'>
             <div className='text-center md:text-left'>
               <div className='text-white font-serif font-bold text-2xl mb-2'>
