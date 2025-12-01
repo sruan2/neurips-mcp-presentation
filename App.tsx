@@ -447,7 +447,23 @@ const App: React.FC = () => {
             </div>
           </div>
           <div className='absolute bottom-8 right-8 z-20'>
-            <NavigationButton targetId='innovation' />
+            <button
+              onClick={() => {
+                const element = document.getElementById('innovation');
+                if (element) {
+                  window.scrollTo({
+                    top: element.offsetTop,
+                    behavior: 'smooth',
+                  });
+                }
+              }}
+              className='group flex flex-col items-center gap-2 text-sm font-medium text-stone-400 hover:text-nobel-gold transition-colors cursor-pointer'
+              aria-label='Go to innovation'
+            >
+              <span className='p-2 border border-stone-700 rounded-full group-hover:border-nobel-gold transition-colors bg-stone-800/50'>
+                <ArrowDown size={16} className='text-stone-400 group-hover:text-nobel-gold transition-colors' />
+              </span>
+            </button>
           </div>
         </section>
 
@@ -545,7 +561,7 @@ const App: React.FC = () => {
               {/* <div className='text-center mb-4'> */}
               {/* <div className='text-center mb-6'> */}
               {/* <div className='text-center mb-12'> */}
-              <div className='inline-flex items-center gap-2 px-3 py-1 bg-stone-100 text-stone-600 text-xs font-bold tracking-widest uppercase rounded-full mb-2 border border-stone-200'>
+              <div className='inline-flex items-center gap-2 px-3 py-1 bg-stone-100 text-nobel-gold text-xs font-bold tracking-widest uppercase rounded-full mb-2 border border-stone-200'>
                 {/* <div className='inline-flex items-center gap-2 px-3 py-1 bg-stone-100 text-stone-600 text-xs font-bold tracking-widest uppercase rounded-full mb-3 border border-stone-200'> */}
                 {/* <div className='inline-flex items-center gap-2 px-3 py-1 bg-stone-100 text-stone-600 text-xs font-bold tracking-widest uppercase rounded-full mb-6 border border-stone-200'> */}
                 <BookOpen size={14} /> OUR PROCESS
@@ -629,7 +645,7 @@ const App: React.FC = () => {
           <div className={`container mx-auto px-8 md:px-16`}>
             <div className='text-center mb-6'>
               {/* <div className='text-center mb-8'> */}
-              <div className='inline-flex items-center gap-2 px-3 py-1 bg-white text-stone-600 text-xs font-bold tracking-widest uppercase rounded-full mb-4 border border-stone-200'>
+              <div className='inline-flex items-center gap-2 px-3 py-1 bg-white text-nobel-gold text-xs font-bold tracking-widest uppercase rounded-full mb-4 border border-stone-200'>
                 {/* <div className='inline-flex items-center gap-2 px-3 py-1 bg-white text-stone-600 text-xs font-bold tracking-widest uppercase rounded-full mb-6 border border-stone-200'> */}
                 <Lightbulb size={14} /> PEDAGOGICAL APPROACHES
               </div>
@@ -736,9 +752,10 @@ const App: React.FC = () => {
                     {selectedPedagogy === 0 &&
                       "Follow Sam, a high school student navigating real-world problems — and discovering how MCP can help."}
                     {selectedPedagogy === 1 &&
-                      "We introduce one concept at a time, so you're never overwhelmed."}
+                      "We introduce one concept at a time, so you're never overwhelmed. Each idea comes with guided practice to reinforce student understanding."}
                     {selectedPedagogy === 2 &&
-                      "A sandbox environment to learn by doing freely and safely."}
+                      // "A sandbox environment to learn by doing freely and safely."
+                      "A sandbox environment where students can learn by doing—freely, safely, and without the fear of making mistakes."}
                     {selectedPedagogy === 3 &&
                       "We build on what you already know with relatable examples, then gradually increase complexity as your confidence grows."}
                   </p>
