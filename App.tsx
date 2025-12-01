@@ -568,7 +568,7 @@ const App: React.FC = () => {
             presentationMode ? "py-16 overflow-hidden" : "py-24"
           }`}
         >
-          <div className={`container mx-auto px-8 md:px-16`}>
+          <div className={` mx-auto px-4`}>
             {/* Header Section - Centered */}
             <div className='text-center mb-12'>
               <div className='inline-flex items-center gap-2 px-3 py-1 bg-stone-100 text-stone-600 text-xs font-bold tracking-widest uppercase rounded-full mb-6 border border-stone-200'>
@@ -578,8 +578,8 @@ const App: React.FC = () => {
                 From Concept to Reality
               </h2>
               <p className='text-lg text-stone-600 mb-8 leading-relaxed max-w-3xl mx-auto'>
-                We leveraged <strong>AI tools</strong> to rapidly transform
-                our vision into an interactive learning experience. Here is a
+                We leveraged <strong>AI tools</strong> to rapidly transform our
+                vision into an interactive learning experience. Here is a
                 summary of our process:
               </p>
             </div>
@@ -596,7 +596,8 @@ const App: React.FC = () => {
                     Research & Planning
                   </h3>
                   <p className='text-sm text-stone-600 leading-relaxed'>
-                    Identify learning objectives and pedagogies, then draft learning experience design requirements
+                    Identify learning objectives and pedagogies, then draft
+                    learning experience design requirements
                   </p>
                 </div>
 
@@ -608,7 +609,8 @@ const App: React.FC = () => {
                     Prototype Learning Experience
                   </h3>
                   <p className='text-sm text-stone-600 leading-relaxed'>
-                    Based on the requirements, draft content (e.g., blog, quizzes) and rapidly prototype with Claude Code
+                    Based on the requirements, draft content (e.g., blog,
+                    quizzes) and rapidly prototype with Claude Code
                   </p>
                 </div>
 
@@ -620,7 +622,8 @@ const App: React.FC = () => {
                     Iterative Refinement
                   </h3>
                   <p className='text-sm text-stone-600 leading-relaxed'>
-                    Continuously seek feedback from Subject Matter Experts and test with learners throughout the process
+                    Continuously seek feedback from Subject Matter Experts and
+                    test with learners throughout the process
                   </p>
                 </div>
               </div>
