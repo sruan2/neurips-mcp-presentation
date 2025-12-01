@@ -191,7 +191,7 @@ const Card: React.FC<
   const containerIsHovered = hoveredId === "content-experience-container";
   const buildIsHovered = hoveredId === "build";
   const feedbackIsHovered =
-    hoveredId === "expert-review" || hoveredId === "learner-feedback";
+    hoveredId?.includes("expert-review") || hoveredId === "learner-feedback";
   const shouldBeOpaque =
     isHovering &&
     !isActive &&
@@ -266,7 +266,7 @@ export const LearningWorkflowDiagram: React.FC = () => {
 
   const FEEDBACK_CARDS: BaseCardProps[] = [
     {
-      id: `expert-review-${isMobile ? "mobile" : ""}`,
+      id: `expert-review${isMobile ? "-mobile" : ""}`,
       title: "Expert Review",
       icon: <UserCheck size={ICON_SIZES.DEFAULT} className='text-stone-400' />,
     },
@@ -304,13 +304,13 @@ export const LearningWorkflowDiagram: React.FC = () => {
     // Feedback loops - Expert Review
     {
       start: "develop-content",
-      end: `expert-review-${isMobile ? "mobile" : ""}`,
+      end: `expert-review${isMobile ? "-mobile" : ""}`,
       startAnchor: isMobile ? "bottom" : "top",
       endAnchor: isMobile ? "top" : "left",
       _cpx1Offset: isMobile ? 100 : -200,
     },
     {
-      start: `expert-review-${isMobile ? "mobile" : ""}`,
+      start: `expert-review${isMobile ? "-mobile" : ""}`,
       end: "content-experience-container",
       startAnchor: isMobile ? "top" : "bottom",
       endAnchor: isMobile ? "bottom" : "top",
@@ -318,10 +318,10 @@ export const LearningWorkflowDiagram: React.FC = () => {
     },
     {
       start: "build",
-      end: `expert-review-${isMobile ? "mobile" : ""}`,
+      end: `expert-review${isMobile ? "-mobile" : ""}`,
       startAnchor: isMobile ? "right" : "top",
       endAnchor: isMobile ? "right" : "right",
-      _cpx1Offset: isMobile ? 100 : undefined,
+      _cpx1Offset: isMobile ? 100 : 0,
       curveness: 0.8,
     },
     // Feedback loops - Learner Feedback
@@ -330,7 +330,7 @@ export const LearningWorkflowDiagram: React.FC = () => {
       end: "learner-feedback",
       startAnchor: isMobile ? "right" : "bottom",
       endAnchor: "right",
-      _cpx1Offset: isMobile ? 100 : undefined,
+      _cpx1Offset: isMobile ? 100 : 0,
       curveness: 0.8,
     },
     {
@@ -435,6 +435,7 @@ export const LearningWorkflowDiagram: React.FC = () => {
             <div className='flex justify-center mb-4 md:mb-6'>
               <div className='w-full max-w-xs md:w-64'>
                 <FeedbackCard
+                  id='expert-review'
                   {...expertReviewCard}
                   isActive={activeNodes.has(expertReviewCard.id!)}
                   onHover={setHoveredId}
@@ -518,6 +519,7 @@ export const LearningWorkflowDiagram: React.FC = () => {
             <div className='flex justify-center mt-4 md:mt-6'>
               <div className='w-full max-w-xs'>
                 <FeedbackCard
+                  id='expert-review-mobile'
                   {...expertReviewCard}
                   isActive={activeNodes.has(expertReviewCard.id!)}
                   onHover={setHoveredId}
