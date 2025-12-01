@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Xarrow, { Xwrapper, xarrowPropsType } from "react-xarrows";
 import {
   MessageCircle,
@@ -41,9 +41,6 @@ interface ArrowConfig {
 }
 
 // --- CONSTANTS ---
-const TIMING = {
-  ARROW_MOUNT_DELAY: 100,
-} as const;
 
 const ICON_SIZES = {
   DEFAULT: 20,
@@ -52,7 +49,7 @@ const ICON_SIZES = {
 } as const;
 
 const ARROW_CONFIG: Partial<xarrowPropsType> = {
-  color: "#d4af37",
+  color: "#C5a0591A",
   strokeWidth: 3,
   headSize: 5,
   showHead: true,
@@ -183,23 +180,31 @@ const FEEDBACK_CARDS: BaseCardProps[] = [
 ];
 
 // --- UTILITY COMPONENTS ---
-const ListItem: React.FC<{ item: string }> = ({ item }) => (
-  <div className='text-xs text-stone-600 leading-relaxed bg-stone-50 rounded px-2 py-1'>
+const ListItem: React.FC<{ item: string; isActive?: boolean }> = ({
+  item,
+  isActive = false,
+}) => (
+  <div
+    className={`text-xs text-stone-600 leading-relaxed rounded px-2 py-1 transition-colors duration-300 ${
+      isActive ? "bg-nobel-gold/20" : "bg-stone-50"
+    }`}
+  >
     {item}
   </div>
 );
 
-const ListSection: React.FC<{ items: string[]; label: string }> = ({
-  items,
-  label,
-}) => (
+const ListSection: React.FC<{
+  items: string[];
+  label: string;
+  isActive?: boolean;
+}> = ({ items, label, isActive = false }) => (
   <div className='mb-2'>
     <div className='text-[10px] font-bold text-stone-500 uppercase tracking-wide mb-1'>
       {label}
     </div>
     <div className='space-y-1'>
       {items.map((item, i) => (
-        <ListItem key={i} item={item} />
+        <ListItem key={i} item={item} isActive={isActive} />
       ))}
     </div>
   </div>
@@ -227,7 +232,9 @@ const AISupportSection: React.FC<{ aiSupport: string }> = ({ aiSupport }) => (
 );
 
 // --- CARD COMPONENTS ---
-const Card: React.FC<CardProps> = ({
+const Card: React.FC<
+  CardProps & { onHover?: (id: string | undefined) => void }
+> = ({
   id,
   title,
   icon,
@@ -237,11 +244,12 @@ const Card: React.FC<CardProps> = ({
   aiSupport,
   isActive = false,
   variant = "default",
+  onHover,
 }) => {
   const baseClasses =
-    "relative bg-white rounded-xl border-2 p-3 md:p-4 transition-all duration-500 flex flex-col";
+    "relative bg-white rounded-xl border-2 p-3 md:p-4 transition-all duration-500 flex flex-col cursor-pointer";
   const activeClasses = isActive
-    ? "border-nobel-gold shadow-lg scale-105"
+    ? "border-nobel-gold shadow-lg"
     : "border-stone-200";
   const variantClasses = variant === "compact" ? "text-xs" : "";
 
@@ -249,6 +257,8 @@ const Card: React.FC<CardProps> = ({
     <div
       id={id}
       className={`${baseClasses} ${activeClasses} ${variantClasses}`}
+      onMouseEnter={() => onHover?.(id)}
+      onMouseLeave={() => onHover?.(undefined)}
     >
       <div className='flex items-center gap-2 md:gap-3 mb-2 md:mb-3'>
         <div className='w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center bg-nobel-gold/10'>
@@ -274,17 +284,16 @@ const Card: React.FC<CardProps> = ({
   );
 };
 
-const FeedbackCard: React.FC<BaseCardProps> = ({
-  id,
-  title,
-  icon,
-  isActive = false,
-}) => (
+const FeedbackCard: React.FC<
+  BaseCardProps & { onHover?: (id: string | undefined) => void }
+> = ({ id, title, icon, isActive = false, onHover }) => (
   <div
     id={id}
-    className={`bg-white rounded-xl border-2 p-3 md:p-4 flex items-center gap-2 md:gap-3 transition-all duration-500 ${
+    className={`bg-white rounded-xl border-2 p-3 md:p-4 flex items-center gap-2 md:gap-3 transition-all duration-500 cursor-pointer ${
       isActive ? "border-nobel-gold shadow-lg" : "border-stone-200"
     }`}
+    onMouseEnter={() => onHover?.(id)}
+    onMouseLeave={() => onHover?.(undefined)}
   >
     <div className='w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center bg-nobel-gold/10'>
       {icon}
@@ -295,19 +304,68 @@ const FeedbackCard: React.FC<BaseCardProps> = ({
 
 // --- MAIN COMPONENT ---
 export const LearningWorkflowDiagram: React.FC = () => {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setMounted(true);
-    }, TIMING.ARROW_MOUNT_DELAY);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   const [defineGoalsCard, developContentCard, designExperienceCard, buildCard] =
     WORKFLOW_CARDS;
   const [expertReviewCard, learnerFeedbackCard] = FEEDBACK_CARDS;
+  const [hoveredId, setHoveredId] = useState<string | undefined>(undefined);
+
+  // Get all connected node IDs for a given node
+  const getConnectedNodes = (nodeId: string | undefined): Set<string> => {
+    if (!nodeId) return new Set();
+    const connected = new Set<string>([nodeId]);
+
+    // Special case: when hovering design-experience, highlight container and build (not itself)
+    if (nodeId === "design-experience") {
+      return new Set(["content-experience-container", "build"]);
+    }
+
+    // Special case: when hovering content-experience-container, highlight itself and build
+    if (nodeId === "content-experience-container") {
+      return new Set(["content-experience-container", "build"]);
+    }
+
+    // Check only outgoing arrow connections for this node
+    ARROWS.forEach((arrow) => {
+      if (arrow.start === nodeId) {
+        connected.add(arrow.end);
+      }
+    });
+
+    // Special case: if hovering define-goals and it connects to content-experience-container,
+    // also highlight develop-content (which consumes the output)
+    if (
+      nodeId === "define-goals" &&
+      connected.has("content-experience-container")
+    ) {
+      connected.add("develop-content");
+    }
+
+    return connected;
+  };
+
+  // Check if an arrow should be active
+  const isArrowActive = (start: string, end: string): boolean => {
+    if (!hoveredId) return false;
+
+    // Special case: highlight the arrow between content-experience-container and build
+    // when hovering over design-experience or content-experience-container (but not build)
+    const highlightConnectorGroup = new Set([
+      "design-experience",
+      "content-experience-container",
+    ]);
+
+    if (
+      highlightConnectorGroup.has(hoveredId) &&
+      start === "content-experience-container" &&
+      end === "build"
+    ) {
+      return true;
+    }
+
+    return start === hoveredId;
+  };
+
+  const activeNodes = getConnectedNodes(hoveredId);
 
   return (
     <div className='p-4 md:p-8 bg-white rounded-xl border-2 border-stone-200 my-4 md:my-8 shadow-lg'>
@@ -319,57 +377,92 @@ export const LearningWorkflowDiagram: React.FC = () => {
           {/* Top Feedback - Expert Review */}
           <div className='flex justify-center mb-4 md:mb-6'>
             <div className='w-full max-w-xs md:w-64'>
-              <FeedbackCard {...expertReviewCard} />
+              <FeedbackCard
+                {...expertReviewCard}
+                isActive={activeNodes.has(expertReviewCard.id!)}
+                onHover={setHoveredId}
+              />
             </div>
           </div>
 
           {/* Main workflow row */}
           <div className='grid grid-cols-1 md:grid-cols-4 gap-8 relative'>
             <div className='my-auto'>
-              <Card {...defineGoalsCard} />
+              <Card
+                {...defineGoalsCard}
+                isActive={activeNodes.has(defineGoalsCard.id!)}
+                onHover={setHoveredId}
+              />
             </div>
 
             {/* Central box: Content & Experience Creation */}
             <div className='md:col-span-2 relative'>
               <div
                 id='content-experience-container'
-                className='bg-white rounded-xl border-2 p-3 md:p-4 transition-all duration-500 border-stone-200'
+                className={`bg-white rounded-xl border-2 p-3 md:p-4 transition-all duration-500 cursor-pointer ${
+                  activeNodes.has("content-experience-container")
+                    ? "border-nobel-gold shadow-lg"
+                    : "border-stone-200"
+                }`}
+                onMouseEnter={() =>
+                  setHoveredId("content-experience-container")
+                }
+                onMouseLeave={() => setHoveredId(undefined)}
               >
                 <h3 className='font-serif text-base md:text-lg text-stone-900 mb-3 md:mb-4 text-center'>
                   Content & Experience Creation
                 </h3>
 
                 <div className='grid grid-cols-1 sm:grid-cols-2 gap-8'>
-                  <Card {...developContentCard} />
-                  <Card {...designExperienceCard} />
+                  <Card
+                    {...developContentCard}
+                    isActive={activeNodes.has(developContentCard.id!)}
+                    onHover={setHoveredId}
+                  />
+                  <Card
+                    {...designExperienceCard}
+                    isActive={activeNodes.has(designExperienceCard.id!)}
+                    onHover={setHoveredId}
+                  />
                 </div>
               </div>
             </div>
 
             <div className='my-auto'>
-              <Card {...buildCard} />
+              <Card
+                {...buildCard}
+                isActive={activeNodes.has(buildCard.id!)}
+                onHover={setHoveredId}
+              />
             </div>
           </div>
 
           {/* Bottom Feedback - Learner Feedback */}
           <div className='flex justify-center mt-4 md:mt-6'>
             <div className='w-full max-w-xs md:w-64'>
-              <FeedbackCard {...learnerFeedbackCard} />
+              <FeedbackCard
+                {...learnerFeedbackCard}
+                isActive={activeNodes.has(learnerFeedbackCard.id!)}
+                onHover={setHoveredId}
+              />
             </div>
           </div>
 
           {/* Arrows - Hidden on mobile, visible on md+ screens */}
-          {mounted && (
-            <div className='hidden md:block'>
-              {ARROWS.map((arrowConfig) => (
-                <Xarrow
-                  key={`${arrowConfig.start}-${arrowConfig.end}`}
-                  {...ARROW_CONFIG}
-                  {...arrowConfig}
-                />
-              ))}
-            </div>
-          )}
+          <div className='hidden md:block'>
+            {ARROWS.map((arrowConfig) => (
+              <Xarrow
+                key={`${arrowConfig.start}-${arrowConfig.end}`}
+                {...ARROW_CONFIG}
+                {...arrowConfig}
+                color={
+                  isArrowActive(arrowConfig.start, arrowConfig.end)
+                    ? "#C5a059"
+                    : "#e7e5e4"
+                }
+              />
+            ))}
+          </div>
         </div>
       </Xwrapper>
     </div>
