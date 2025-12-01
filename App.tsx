@@ -877,6 +877,27 @@ const App: React.FC = () => {
                 AI education more accessible.
               </p>
 
+              <div className='flex justify-center mb-8'>
+                <div className='relative w-32 h-32'>
+                  {/* Floating particles - similar to hero scene */}
+                  <div className='absolute top-2 right-4 w-2 h-2 bg-stone-400/30 rounded-full animate-pulse' style={{ animationDuration: '3s' }}></div>
+                  <div className='absolute bottom-4 left-2 w-1.5 h-1.5 bg-stone-500/20 rounded-full animate-pulse' style={{ animationDuration: '4s', animationDelay: '0.5s' }}></div>
+                  <div className='absolute top-8 left-6 w-1 h-1 bg-nobel-gold/40 rounded-full animate-pulse' style={{ animationDuration: '3.5s', animationDelay: '1s' }}></div>
+                  <div className='absolute bottom-8 right-6 w-1 h-1 bg-stone-400/25 rounded-full animate-pulse' style={{ animationDuration: '4.5s', animationDelay: '1.5s' }}></div>
+
+                  {/* Subtle rotating ring - like orbital paths */}
+                  <div className='absolute inset-0 border-2 border-stone-300/20 rounded-full animate-spin' style={{ animationDuration: '20s' }}></div>
+                  <div className='absolute inset-2 border border-stone-300/10 rounded-full animate-spin' style={{ animationDuration: '15s', animationDirection: 'reverse' }}></div>
+
+                  {/* Main icon container - floating effect */}
+                  <div className='absolute inset-0 flex items-center justify-center'>
+                    <div className='relative w-20 h-20 bg-white/50 backdrop-blur-sm rounded-full flex items-center justify-center border border-stone-300/40 shadow-sm transition-all duration-500 hover:scale-110 animate-bounce' style={{ animationDuration: '3s' }}>
+                      <BookOpen size={36} className='text-nobel-gold' strokeWidth={2} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div className='flex flex-col sm:flex-row gap-4 justify-center items-center'>
                 <a
                   href='https://x.com/ruansherry'
