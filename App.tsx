@@ -2,7 +2,7 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
-
+import { LearningWorkflowDiagram } from "./components/Diagrams";
 import React, { useState, useEffect } from "react";
 import { HeroScene, QuantumComputerScene } from "./components/QuantumScene";
 import {
@@ -385,9 +385,7 @@ const App: React.FC = () => {
           <div className='absolute top-0 right-0 w-[500px] h-[500px] bg-nobel-gold/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3'></div>
           <div className='absolute bottom-0 left-0 w-[400px] h-[400px] bg-stone-600/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3'></div>
 
-          <div
-            className={`container mx-auto px-8 md:px-16 relative z-10`}
-          >
+          <div className={`container mx-auto px-8 md:px-16 relative z-10`}>
             <div className='max-w-5xl mx-auto'>
               {/* Icon & Label */}
               <div className='flex justify-center mb-6'>
@@ -493,9 +491,7 @@ const App: React.FC = () => {
             <div className='w-96 h-96 rounded-full bg-stone-300 blur-[100px] absolute bottom-[-100px] right-[-100px]'></div>
           </div>
 
-          <div
-            className={`container mx-auto px-8 md:px-16 relative z-10`}
-          >
+          <div className={`container mx-auto px-8 md:px-16 relative z-10`}>
             <div className='text-center mb-8'>
               <div className='inline-flex items-center gap-2 px-3 py-1 bg-white/80 backdrop-blur-sm text-nobel-gold text-xs font-bold tracking-widest uppercase rounded-full mb-4 border border-stone-200'>
                 <Lightbulb size={14} /> SECONDARY GOAL
@@ -572,62 +568,66 @@ const App: React.FC = () => {
             presentationMode ? "py-16 overflow-hidden" : "py-24"
           }`}
         >
-          <div
-            className={`container mx-auto px-8 md:px-16`}
-          >
-            <div className='grid grid-cols-1 lg:grid-cols-2 gap-16 items-center'>
-              <div>
-                <div className='inline-flex items-center gap-2 px-3 py-1 bg-stone-100 text-stone-600 text-xs font-bold tracking-widest uppercase rounded-full mb-6 border border-stone-200'>
-                  <BookOpen size={14} /> OUR PROCESS
-                </div>
-                <h2 className='font-serif text-4xl md:text-5xl mb-6 text-stone-900'>
-                  From Concept to Reality
-                </h2>
-                <p className='text-lg text-stone-600 mb-6 leading-relaxed'>
-                  Our development process leveraged{" "}
-                  <strong>AI-assisted development tools</strong> to rapidly
-                  iterate from pedagogical vision to interactive reality. We
-                  started by defining learning objectives and identifying the
-                  gap in accessible AI education for high school students.
-                </p>
-                <p className='text-lg text-stone-600 mb-6 leading-relaxed'>
-                  Working collaboratively with AI tools like Claude Code, we
-                  transformed research-backed pedagogical strategies into
-                  working code, designing each interaction to maximize student
-                  engagement and comprehension.
-                </p>
-                <div className='space-y-3'>
-                  <div className='flex items-start gap-3'>
-                    <div className='w-2 h-2 rounded-full bg-nobel-gold mt-2'></div>
-                    <p className='text-stone-600'>
-                      <strong>Research & Planning:</strong> Identified learning
-                      objectives and pedagogical frameworks
-                    </p>
-                  </div>
-                  <div className='flex items-start gap-3'>
-                    <div className='w-2 h-2 rounded-full bg-nobel-gold mt-2'></div>
-                    <p className='text-stone-600'>
-                      <strong>AI-Assisted Development:</strong> Rapid
-                      prototyping with Claude Code and modern web technologies
-                    </p>
-                  </div>
-                  <div className='flex items-start gap-3'>
-                    <div className='w-2 h-2 rounded-full bg-nobel-gold mt-2'></div>
-                    <p className='text-stone-600'>
-                      <strong>Iterative Refinement:</strong> Continuous testing
-                      and improvement of learning experience
-                    </p>
-                  </div>
-                </div>
+          <div className={`container mx-auto px-8 md:px-16`}>
+            {/* Header Section - Centered */}
+            <div className='text-center mb-12'>
+              <div className='inline-flex items-center gap-2 px-3 py-1 bg-stone-100 text-stone-600 text-xs font-bold tracking-widest uppercase rounded-full mb-6 border border-stone-200'>
+                <BookOpen size={14} /> OUR PROCESS
               </div>
-              <div className='flex items-center justify-center'>
-                <img
-                  src='/Meet Sam.png'
-                  alt='Development process visualization - from concept to interactive learning platform'
-                  className='rounded-xl shadow-lg border border-stone-200 w-full max-w-2xl'
-                />
-              </div>
+              <h2 className='font-serif text-4xl md:text-5xl mb-6 text-stone-900'>
+                From Concept to Reality
+              </h2>
+              <p className='text-lg text-stone-600 mb-8 leading-relaxed max-w-3xl mx-auto'>
+                We leveraged <strong>AI tools</strong> to rapidly transform
+                our vision into an interactive learning experience. Here is a
+                summary of our process:
+              </p>
             </div>
+
+            {/* Conditional Content Based on Presentation Mode */}
+            {presentationMode ? (
+              /* Process Steps - Three Column Grid (Presentation Mode) */
+              <div className='grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto'>
+                <div className='bg-gradient-to-br from-stone-50 to-white rounded-xl p-6 border-2 border-stone-200 hover:border-nobel-gold/50 transition-all duration-300 hover:shadow-lg'>
+                  <div className='w-12 h-12 bg-nobel-gold/10 rounded-lg flex items-center justify-center mb-4'>
+                    <Target className='text-nobel-gold' size={24} />
+                  </div>
+                  <h3 className='font-serif text-xl text-stone-900 mb-3'>
+                    Research & Planning
+                  </h3>
+                  <p className='text-sm text-stone-600 leading-relaxed'>
+                    Identify learning objectives and pedagogies, then draft learning experience design requirements
+                  </p>
+                </div>
+
+                <div className='bg-gradient-to-br from-stone-50 to-white rounded-xl p-6 border-2 border-stone-200 hover:border-nobel-gold/50 transition-all duration-300 hover:shadow-lg'>
+                  <div className='w-12 h-12 bg-nobel-gold/10 rounded-lg flex items-center justify-center mb-4'>
+                    <Sparkles className='text-nobel-gold' size={24} />
+                  </div>
+                  <h3 className='font-serif text-xl text-stone-900 mb-3'>
+                    Prototype Learning Experience
+                  </h3>
+                  <p className='text-sm text-stone-600 leading-relaxed'>
+                    Based on the requirements, draft content (e.g., blog, quizzes) and rapidly prototype with Claude Code
+                  </p>
+                </div>
+
+                <div className='bg-gradient-to-br from-stone-50 to-white rounded-xl p-6 border-2 border-stone-200 hover:border-nobel-gold/50 transition-all duration-300 hover:shadow-lg'>
+                  <div className='w-12 h-12 bg-nobel-gold/10 rounded-lg flex items-center justify-center mb-4'>
+                    <Users className='text-nobel-gold' size={24} />
+                  </div>
+                  <h3 className='font-serif text-xl text-stone-900 mb-3'>
+                    Iterative Refinement
+                  </h3>
+                  <p className='text-sm text-stone-600 leading-relaxed'>
+                    Continuously seek feedback from Subject Matter Experts and test with learners throughout the process
+                  </p>
+                </div>
+              </div>
+            ) : (
+              /* Learning Process Diagram (Normal Mode) */
+              <LearningWorkflowDiagram />
+            )}
           </div>
           <div className='absolute bottom-8 right-8 z-20'>
             <NavigationButton targetId='pedagogies' />
@@ -641,9 +641,7 @@ const App: React.FC = () => {
             presentationMode ? "py-16 overflow-hidden" : "py-24"
           }`}
         >
-          <div
-            className={`container mx-auto px-8 md:px-16`}
-          >
+          <div className={`container mx-auto px-8 md:px-16`}>
             <div className='text-center mb-8'>
               <div className='inline-block mb-2 text-xs font-bold tracking-widest text-stone-500 uppercase'>
                 PEDAGOGICAL FRAMEWORK
@@ -865,7 +863,10 @@ const App: React.FC = () => {
         </section>
 
         {/* Follow Us Section */}
-        <section id='follow' className='bg-gradient-to-br from-stone-100 to-stone-50 relative min-h-screen flex flex-col justify-center'>
+        <section
+          id='follow'
+          className='bg-gradient-to-br from-stone-100 to-stone-50 relative min-h-screen flex flex-col justify-center'
+        >
           <div className='container mx-auto px-8 md:px-16'>
             <div className='max-w-4xl mx-auto text-center'>
               <div className='inline-flex items-center gap-2 px-3 py-1 bg-white text-nobel-gold text-xs font-bold tracking-widest uppercase rounded-full mb-6 border border-stone-200 shadow-sm'>
@@ -875,7 +876,8 @@ const App: React.FC = () => {
                 Follow Us & Share Your Feedback
               </h2>
               <p className='text-base text-stone-600 mb-8 max-w-2xl mx-auto'>
-                Connect with us on X (Twitter) and share your thoughts on making AI education more accessible.
+                Connect with us on X (Twitter) and share your thoughts on making
+                AI education more accessible.
               </p>
 
               <div className='flex flex-col sm:flex-row gap-4 justify-center items-center'>
@@ -885,7 +887,10 @@ const App: React.FC = () => {
                   rel='noopener noreferrer'
                   className='group flex items-center gap-1 px-6 py-3 bg-white border-2 border-stone-900 rounded-full hover:bg-stone-900 hover:text-white transition-all duration-300 shadow-sm min-w-[200px] justify-center'
                 >
-                  <AtSign size={18} className='group-hover:scale-110 transition-transform' />
+                  <AtSign
+                    size={18}
+                    className='group-hover:scale-110 transition-transform'
+                  />
                   <span className='font-medium'>ruansherry</span>
                 </a>
                 <a
@@ -894,7 +899,10 @@ const App: React.FC = () => {
                   rel='noopener noreferrer'
                   className='group flex items-center gap-1 px-6 py-3 bg-white border-2 border-stone-900 rounded-full hover:bg-stone-900 hover:text-white transition-all duration-300 shadow-sm min-w-[200px] justify-center'
                 >
-                  <AtSign size={18} className='group-hover:scale-110 transition-transform' />
+                  <AtSign
+                    size={18}
+                    className='group-hover:scale-110 transition-transform'
+                  />
                   <span className='font-medium'>landay</span>
                 </a>
               </div>
