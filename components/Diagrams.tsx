@@ -65,10 +65,9 @@ const WORKFLOW_CARDS: CardProps[] = [
     id: "define-goals",
     title: "Define Goals & Pedagogies",
     icon: <Target size={ICON_SIZES.DEFAULT} className='text-stone-400' />,
-    description:
-      "Identify learning objectives and select appropriate pedagogical approaches",
+    description: "Set learning objectives and choose pedagogical approaches",
     aiSupport:
-      "Use AI to incorporate educational best practices even without teaching experience",
+      "New to the topic? AI can help you research content and apply learning design best practices.",
     output: ["learning-goals.md"],
   },
   {
@@ -78,7 +77,7 @@ const WORKFLOW_CARDS: CardProps[] = [
     description: "Create materials and quizzes aligned with learning goals",
     input: ["learning-goals.md"],
     aiSupport:
-      "Share credible sources and learner personas with AI to create quality content",
+      "Give AI credible sources and learner personas to improve content quality.",
     output: ["content.md", "quiz.md"],
     variant: "compact",
   },
@@ -86,10 +85,10 @@ const WORKFLOW_CARDS: CardProps[] = [
     id: "design-experience",
     title: "Design the Experience",
     icon: <Sparkles size={ICON_SIZES.SMALL} className='text-stone-400' />,
-    description: "Document your vision for the learning experience",
+    description: "Describe vision for the learning experience",
     input: ["content.md", "quiz.md"],
     aiSupport:
-      "Use AI to draft requirements from design and product perspectives. Share examples to clarify your vision",
+      "Save time by asking AI to draft product requirements. Share examples to help it understand your vision.",
     output: ["requirements.md"],
     variant: "compact",
   },
@@ -97,10 +96,10 @@ const WORKFLOW_CARDS: CardProps[] = [
     id: "build",
     title: "Build",
     icon: <Code size={ICON_SIZES.DEFAULT} className='text-stone-400' />,
-    description: "Put everything together to create the learning experience",
+    description: "Put everything together to create the final experience",
     input: ["content.md", "quiz.md", "requirements.md"],
     aiSupport:
-      "Use AI to audit accessibility and enhance the learning experience",
+      "Use AI to audit accessibility and enhance the learning experience.",
     output: ["Interactive Learning Experience"],
   },
 ];

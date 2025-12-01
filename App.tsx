@@ -342,22 +342,24 @@ const App: React.FC = () => {
                 <span className='text-5xl float-left mr-3 mt-[-8px] font-serif text-nobel-gold'>
                   H
                 </span>
-                ow do we teach high school students about advanced AI concepts
-                without overwhelming them? <strong>MCP Explorer</strong> answers
-                this challenge through an interactive 10-15 minute learning
-                experience that transforms abstract protocols into relatable,
-                hands-on experimentation.
+                ow might we teach high school students about advanced AI
+                concepts without overwhelming them?{" "}
+                <strong className='text-stone-900 font-medium'>
+                  MCP Explorer
+                </strong>{" "}
+                is a 10–15 minute interactive experience that makes abstract
+                ideas tangible through hands-on discovery.
               </p>
               <p>
                 The Model Context Protocol (MCP) connects AI assistants to
-                external tools and data sources. Rather than lecture on
-                technical specifications, we created a{" "}
+                external tools and data sources—but instructions alone don't
+                stick. In this{" "}
                 <strong className='text-stone-900 font-medium'>
                   narrative-driven journey
-                </strong>{" "}
-                where students build their own AI assistant, toggling MCP
-                servers on and off to discover why context matters for AI
-                capabilities.
+                </strong>
+                , students experiment through simple toggles and chat
+                interfaces, discovering firsthand why MCP transforms what AI can
+                do.
               </p>
               <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mt-8'>
                 <MetricCard
@@ -407,7 +409,7 @@ const App: React.FC = () => {
                 className='max-w-3xl mx-auto mb-12 animate-fade-in-up'
                 style={{ animationDelay: "0.1s" }}
               >
-                <p className='text-lg text-stone-300 leading-relaxed text-center'>
+                <p className='text-lg text-stone-400 leading-relaxed text-center'>
                   The world of AI is evolving at an unprecedented pace, with new
                   concepts, tools, and capabilities emerging constantly. How
                   might we—as educators—keep up with this rapid evolution while
@@ -435,7 +437,7 @@ const App: React.FC = () => {
                   </h3>
                   <p className='text-sm text-stone-300 leading-relaxed'>
                     New AI concepts emerge faster than traditional curriculum
-                    development cycles
+                    cycles can follow
                   </p>
                 </div>
 
@@ -466,8 +468,8 @@ const App: React.FC = () => {
                     Educator Capacity
                   </h3>
                   <p className='text-sm text-stone-300 leading-relaxed'>
-                    Teachers must balance staying current while managing
-                    existing responsibilities
+                    Educators are already stretched thin—staying current is one
+                    more demand
                   </p>
                 </div>
               </div>
@@ -496,35 +498,24 @@ const App: React.FC = () => {
               <div className='inline-flex items-center gap-2 px-3 py-1 bg-white/80 backdrop-blur-sm text-nobel-gold text-xs font-bold tracking-widest uppercase rounded-full mb-4 border border-stone-200'>
                 <Lightbulb size={14} /> SECONDARY GOAL
               </div>
-              <h2 className='font-serif text-3xl md:text-4xl mb-4 text-stone-900'>
+              <h2 className='font-serif text-4xl md:text-5xl text-center mb-6 leading-tight animate-fade-in-up text-stone-900'>
                 AI-Powered Educational Innovation
               </h2>
-              <p className='text-base text-stone-600 max-w-3xl mx-auto mb-6'>
-                Beyond teaching students about AI, this project demonstrates how
-                AI tools can empower educators to create engaging learning
-                experiences rapidly.
+              <p className='text-lg text-stone-600 mb-8 leading-relaxed max-w-3xl mx-auto'>
+                Beyond helping students learn about AI, this project
+                demonstrates how AI tools can help educators create engaging
+                learning experiences—fast.
               </p>
             </div>
 
             <div className='max-w-4xl mx-auto'>
               <div className='bg-white/60 backdrop-blur-sm border border-stone-200 rounded-xl p-6 md:p-8 shadow-sm'>
-                <p className='text-base text-stone-600 leading-relaxed mb-4'>
-                  The entire MCP Explorer platform—from interactive
-                  visualizations to the presentation you're viewing—was
-                  developed with the assistance of{" "}
-                  <strong className='text-stone-900 font-medium'>
-                    AI-powered development tools
-                  </strong>
-                  , showcasing how educators can leverage these technologies to
-                  bring their pedagogical visions to life efficiently and
-                  effectively.
-                </p>
                 <p className='text-base text-stone-600 leading-relaxed'>
-                  This project serves as a proof of concept that educators, even
-                  those without extensive programming backgrounds, can harness
-                  AI assistance to build sophisticated, interactive learning
-                  experiences that were previously out of reach without
-                  dedicated development teams.
+                  The entire MCP Explorer platform was built with AI-powered
+                  development tools. No dedicated dev team, no extensive
+                  programming background required. It's a proof of concept:
+                  sophisticated, interactive learning experiences are now within
+                  reach.
                 </p>
               </div>
 
@@ -578,9 +569,7 @@ const App: React.FC = () => {
                 From Concept to Reality
               </h2>
               <p className='text-lg text-stone-600 mb-8 leading-relaxed max-w-3xl mx-auto'>
-                We leveraged <strong>AI tools</strong> to rapidly transform our
-                vision into an interactive learning experience. Here is a
-                summary of our process:
+                How we built MCP Explorer with AI tools.
               </p>
             </div>
 
@@ -646,15 +635,11 @@ const App: React.FC = () => {
         >
           <div className={`container mx-auto px-8 md:px-16`}>
             <div className='text-center mb-8'>
-              <div className='inline-block mb-2 text-xs font-bold tracking-widest text-stone-500 uppercase'>
-                PEDAGOGICAL FRAMEWORK
-              </div>
-              <h2 className='font-serif text-3xl md:text-4xl mb-3 text-stone-900'>
+              <h2 className='font-serif text-4xl md:text-5xl mb-6 text-stone-900'>
                 Pedagogies
               </h2>
-              <p className='text-sm text-stone-500 max-w-2xl mx-auto'>
-                Research-backed pedagogies that transform abstract AI concepts
-                into concrete, memorable learning experiences.
+              <p className='text-lg text-stone-600 mb-8 leading-relaxed max-w-3xl mx-auto'>
+                Research-backed methods that make abstract AI concepts click.
               </p>
             </div>
 
@@ -675,7 +660,7 @@ const App: React.FC = () => {
                   <div className='font-serif text-lg text-stone-900 mb-1'>
                     Narrative-Driven
                   </div>
-                  <div className='text-xs text-stone-600 leading-relaxed'>
+                  <div className='text-sm text-stone-600 leading-relaxed'>
                     Story-based learning with relatable scenarios
                   </div>
                 </button>
@@ -694,8 +679,8 @@ const App: React.FC = () => {
                   <div className='font-serif text-lg text-stone-900 mb-1'>
                     Cognitive Load Theory
                   </div>
-                  <div className='text-xs text-stone-600 leading-relaxed'>
-                    Surface relevant information at the right time.
+                  <div className='text-sm text-stone-600 leading-relaxed'>
+                    Bite-sized concepts that build without overwhelming
                   </div>
                 </button>
 
@@ -713,8 +698,8 @@ const App: React.FC = () => {
                   <div className='font-serif text-lg text-stone-900 mb-1'>
                     Constructivist
                   </div>
-                  <div className='text-xs text-stone-600 leading-relaxed'>
-                    Active exploration and hands-on learning
+                  <div className='text-sm text-stone-600 leading-relaxed'>
+                    Learn by doing, not just reading
                   </div>
                 </button>
 
@@ -732,8 +717,8 @@ const App: React.FC = () => {
                   <div className='font-serif text-lg text-stone-900 mb-1'>
                     Scaffolding
                   </div>
-                  <div className='text-xs text-stone-600 leading-relaxed'>
-                    Less hand-holding as learners progress.
+                  <div className='text-sm text-stone-600 leading-relaxed'>
+                    Support when you need it, independence when you're ready
                   </div>
                 </button>
               </div>
@@ -747,15 +732,15 @@ const App: React.FC = () => {
                     {selectedPedagogy === 2 && "Constructivist Learning"}
                     {selectedPedagogy === 3 && "Scaffolding"}
                   </h3>
-                  <p className='text-xs text-stone-600 leading-relaxed'>
+                  <p className='text-sm text-stone-600 leading-relaxed'>
                     {selectedPedagogy === 0 &&
-                      "Students connect with Sam, a relatable high school character facing real-world problems that MCP can solve."}
+                      "Follow Sam, a high school student navigating real-world problems — and discovering how MCP can help."}
                     {selectedPedagogy === 1 &&
-                      "Content is presented in a way that is easy to understand and follow, with progressive disclosure to prevent cognitive overload."}
+                      "We introduce one concept at a time, so you're never overwhelmed."}
                     {selectedPedagogy === 2 &&
-                      "Interactive playground and exercises to encourage active learning and hands-on exploration."}
+                      "A sandbox environment to learn by doing freely and safely."}
                     {selectedPedagogy === 3 &&
-                      "Scaffolding through prior knowledge and relatable life examples and through exercises that gradually become more difficult."}
+                      "We build on what you already know with relatable examples, then gradually increase complexity as your confidence grows."}
                   </p>
                 </div>
                 <div className='aspect-video bg-stone-100 flex items-center justify-center'>
@@ -769,7 +754,7 @@ const App: React.FC = () => {
                   {selectedPedagogy === 1 && (
                     <img
                       src='/6-stages.png'
-                      alt='Cognitive Load Theory - Surface relevant information at the right time.'
+                      alt='Cognitive Load Theory - Surface relevant information at the right time'
                       className='w-full h-full object-cover'
                     />
                   )}
@@ -818,8 +803,7 @@ const App: React.FC = () => {
                 Lessons Learned
               </h2>
               <p className='text-lg text-stone-600 max-w-3xl mx-auto'>
-                Insights from creating an interactive learning experience that
-                makes advanced AI concepts accessible to high school students.
+                What building this taught us.
               </p>
             </div>
 
@@ -835,27 +819,22 @@ const App: React.FC = () => {
                   Racing Against Evolution
                 </h3>
                 <p className='text-sm text-stone-600 leading-relaxed'>
-                  Technology advances faster than traditional curriculum cycles.
-                  MCP itself evolved rapidly, making our content quickly
-                  outdated and highlighting the{" "}
-                  <strong>
-                    {" "}
-                    urgent need to empower educators with rapid content creation
-                    tools
-                  </strong>
-                  .
+                  Technology moves faster than traditional curriculum cycles.
+                  MCP itself evolved, making some of our content outdated before
+                  launch — a reminder that educators need tools that can adapt
+                  just as quickly.
                 </p>
               </div>
               <FeatureCard
                 icon={Sparkles}
                 title='Sprinkle some stories'
-                description='Narrative-driven learning made easy–AI can be a powerful writing partner, creating engaging, relatable stories and examples tailored to each learner’s background and prior knowledge.'
+                description="AI makes narrative-driven learning practical at scale — generating relatable scenarios and examples tailored to each learner's background and prior knowledge. Why not use it to make learning more engaging?"
                 delay='0.1s'
               />
               <FeatureCard
                 icon={Users}
-                title='Partner up with SMEs'
-                description='AI-generated errors are a real concern—but AI can also be part of the solution. It helps you reach more SMEs and makes it easier for them to weigh in. Let’s work together to build better educational materials, faster.'
+                title='Bring in the Experts'
+                description='AI-generated errors are a real concern — but AI can also be part of the solution. It helps you reach more subject-matter experts and makes it easier for them to review and contribute.'
                 delay='0.2s'
               />
             </div>
