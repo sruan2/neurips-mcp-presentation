@@ -233,7 +233,11 @@ const AISupportSection: React.FC<{ aiSupport: string }> = ({ aiSupport }) => (
 
 // --- CARD COMPONENTS ---
 const Card: React.FC<
-  CardProps & { onHover?: (id: string | undefined) => void }
+  CardProps & {
+    onHover?: (id: string | undefined) => void;
+    isHovering?: boolean;
+    hoveredId?: string;
+  }
 > = ({
   id,
   title,
@@ -245,6 +249,8 @@ const Card: React.FC<
   isActive = false,
   variant = "default",
   onHover,
+  isHovering = false,
+  hoveredId,
 }) => {
   const baseClasses =
     "relative bg-white rounded-xl border-2 p-3 md:p-4 transition-all duration-500 flex flex-col cursor-pointer";
@@ -253,10 +259,26 @@ const Card: React.FC<
     : "border-stone-200";
   const variantClasses = variant === "compact" ? "text-xs" : "";
 
+  // Don't make children opaque when their container is hovered OR when Build is hovered OR when feedback cards are hovered
+  const isChildOfContainer =
+    id === "develop-content" || id === "design-experience";
+  const containerIsHovered = hoveredId === "content-experience-container";
+  const buildIsHovered = hoveredId === "build";
+  const feedbackIsHovered =
+    hoveredId === "expert-review" || hoveredId === "learner-feedback";
+  const shouldBeOpaque =
+    isHovering &&
+    !isActive &&
+    !(
+      isChildOfContainer &&
+      (containerIsHovered || buildIsHovered || feedbackIsHovered)
+    );
+  const opacityClasses = shouldBeOpaque ? "opacity-30" : "opacity-100";
+
   return (
     <div
       id={id}
-      className={`${baseClasses} ${activeClasses} ${variantClasses}`}
+      className={`${baseClasses} ${activeClasses} ${variantClasses} ${opacityClasses}`}
       onMouseEnter={() => onHover?.(id)}
       onMouseLeave={() => onHover?.(undefined)}
     >
@@ -285,22 +307,29 @@ const Card: React.FC<
 };
 
 const FeedbackCard: React.FC<
-  BaseCardProps & { onHover?: (id: string | undefined) => void }
-> = ({ id, title, icon, isActive = false, onHover }) => (
-  <div
-    id={id}
-    className={`bg-white rounded-xl border-2 p-3 md:p-4 flex items-center gap-2 md:gap-3 transition-all duration-500 cursor-pointer ${
-      isActive ? "border-nobel-gold shadow-lg" : "border-stone-200"
-    }`}
-    onMouseEnter={() => onHover?.(id)}
-    onMouseLeave={() => onHover?.(undefined)}
-  >
-    <div className='w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center bg-nobel-gold/10'>
-      {icon}
+  BaseCardProps & {
+    onHover?: (id: string | undefined) => void;
+    isHovering?: boolean;
+  }
+> = ({ id, title, icon, isActive = false, onHover, isHovering = false }) => {
+  const opacityClasses = isHovering && !isActive ? "opacity-30" : "opacity-100";
+
+  return (
+    <div
+      id={id}
+      className={`bg-white rounded-xl border-2 p-3 md:p-4 flex items-center gap-2 md:gap-3 transition-all duration-500 cursor-pointer ${opacityClasses} ${
+        isActive ? "border-nobel-gold shadow-lg" : "border-stone-200"
+      }`}
+      onMouseEnter={() => onHover?.(id)}
+      onMouseLeave={() => onHover?.(undefined)}
+    >
+      <div className='w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center bg-nobel-gold/10'>
+        {icon}
+      </div>
+      <h4 className='font-serif text-sm md:text-lg text-stone-900'>{title}</h4>
     </div>
-    <h4 className='font-serif text-sm md:text-lg text-stone-900'>{title}</h4>
-  </div>
-);
+  );
+};
 
 // --- MAIN COMPONENT ---
 export const LearningWorkflowDiagram: React.FC = () => {
@@ -314,14 +343,24 @@ export const LearningWorkflowDiagram: React.FC = () => {
     if (!nodeId) return new Set();
     const connected = new Set<string>([nodeId]);
 
-    // Special case: when hovering design-experience, highlight container and build (not itself)
+    // Special case: when hovering design-experience, highlight container, develop-content, and build
     if (nodeId === "design-experience") {
-      return new Set(["content-experience-container", "build"]);
+      return new Set([
+        "content-experience-container",
+        "develop-content",
+        "design-experience",
+        "build",
+      ]);
     }
 
-    // Special case: when hovering content-experience-container, highlight itself and build
+    // Special case: when hovering content-experience-container, highlight itself, children, and build
     if (nodeId === "content-experience-container") {
-      return new Set(["content-experience-container", "build"]);
+      return new Set([
+        "content-experience-container",
+        "develop-content",
+        "design-experience",
+        "build",
+      ]);
     }
 
     // Check only outgoing arrow connections for this node
@@ -366,6 +405,7 @@ export const LearningWorkflowDiagram: React.FC = () => {
   };
 
   const activeNodes = getConnectedNodes(hoveredId);
+  const isHovering = hoveredId !== undefined;
 
   return (
     <div className='p-4 md:p-8 bg-white rounded-xl border-2 border-stone-200 my-4 md:my-8 shadow-lg'>
@@ -381,6 +421,7 @@ export const LearningWorkflowDiagram: React.FC = () => {
                 {...expertReviewCard}
                 isActive={activeNodes.has(expertReviewCard.id!)}
                 onHover={setHoveredId}
+                isHovering={isHovering}
               />
             </div>
           </div>
@@ -392,6 +433,8 @@ export const LearningWorkflowDiagram: React.FC = () => {
                 {...defineGoalsCard}
                 isActive={activeNodes.has(defineGoalsCard.id!)}
                 onHover={setHoveredId}
+                isHovering={isHovering}
+                hoveredId={hoveredId}
               />
             </div>
 
@@ -400,6 +443,13 @@ export const LearningWorkflowDiagram: React.FC = () => {
               <div
                 id='content-experience-container'
                 className={`bg-white rounded-xl border-2 p-3 md:p-4 transition-all duration-500 cursor-pointer ${
+                  isHovering &&
+                  !activeNodes.has("content-experience-container") &&
+                  hoveredId !== "develop-content" &&
+                  hoveredId !== "design-experience"
+                    ? "opacity-30"
+                    : "opacity-100"
+                } ${
                   activeNodes.has("content-experience-container")
                     ? "border-nobel-gold shadow-lg"
                     : "border-stone-200"
@@ -418,11 +468,15 @@ export const LearningWorkflowDiagram: React.FC = () => {
                     {...developContentCard}
                     isActive={activeNodes.has(developContentCard.id!)}
                     onHover={setHoveredId}
+                    isHovering={isHovering}
+                    hoveredId={hoveredId}
                   />
                   <Card
                     {...designExperienceCard}
                     isActive={activeNodes.has(designExperienceCard.id!)}
                     onHover={setHoveredId}
+                    isHovering={isHovering}
+                    hoveredId={hoveredId}
                   />
                 </div>
               </div>
@@ -433,6 +487,8 @@ export const LearningWorkflowDiagram: React.FC = () => {
                 {...buildCard}
                 isActive={activeNodes.has(buildCard.id!)}
                 onHover={setHoveredId}
+                isHovering={isHovering}
+                hoveredId={hoveredId}
               />
             </div>
           </div>
@@ -444,24 +500,29 @@ export const LearningWorkflowDiagram: React.FC = () => {
                 {...learnerFeedbackCard}
                 isActive={activeNodes.has(learnerFeedbackCard.id!)}
                 onHover={setHoveredId}
+                isHovering={isHovering}
               />
             </div>
           </div>
 
           {/* Arrows - Hidden on mobile, visible on md+ screens */}
           <div className='hidden md:block'>
-            {ARROWS.map((arrowConfig) => (
-              <Xarrow
-                key={`${arrowConfig.start}-${arrowConfig.end}`}
-                {...ARROW_CONFIG}
-                {...arrowConfig}
-                color={
-                  isArrowActive(arrowConfig.start, arrowConfig.end)
-                    ? "#C5a059"
-                    : "#e7e5e4"
-                }
-              />
-            ))}
+            {ARROWS.map((arrowConfig) => {
+              const isActive = isArrowActive(
+                arrowConfig.start,
+                arrowConfig.end
+              );
+              return (
+                <Xarrow
+                  key={`${arrowConfig.start}-${arrowConfig.end}`}
+                  {...ARROW_CONFIG}
+                  {...arrowConfig}
+                  color={
+                    isActive ? "#C5a059" : `#e7e5e4${isHovering ? "4A" : ""}`
+                  }
+                />
+              );
+            })}
           </div>
         </div>
       </Xwrapper>
