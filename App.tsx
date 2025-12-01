@@ -139,14 +139,10 @@ const App: React.FC = () => {
     setMenuOpen(false);
     const element = document.getElementById(id);
     if (element) {
-      // Account for fixed header offset
-      const headerOffset = 100;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition =
-        elementPosition + window.pageYOffset - headerOffset;
+      const elementTop = element.offsetTop;
 
       window.scrollTo({
-        top: offsetPosition,
+        top: elementTop,
         behavior: "smooth",
       });
     }
@@ -191,18 +187,18 @@ const App: React.FC = () => {
               Overview
             </a>
             <a
-              href='#challenge'
-              onClick={scrollToSection("challenge")}
-              className='hover:text-nobel-gold transition-colors cursor-pointer uppercase'
-            >
-              Challenge
-            </a>
-            <a
               href='#pedagogy'
               onClick={scrollToSection("pedagogy")}
               className='hover:text-nobel-gold transition-colors cursor-pointer uppercase'
             >
-              Pedagogy
+              Process
+            </a>
+            <a
+              href='#pedagogies'
+              onClick={scrollToSection("pedagogies")}
+              className='hover:text-nobel-gold transition-colors cursor-pointer uppercase'
+            >
+              Pedagogies
             </a>
             <a
               href='#insights'
@@ -241,18 +237,18 @@ const App: React.FC = () => {
             Overview
           </a>
           <a
-            href='#challenge'
-            onClick={scrollToSection("challenge")}
-            className='hover:text-nobel-gold transition-colors cursor-pointer uppercase'
-          >
-            Challenge
-          </a>
-          <a
             href='#pedagogy'
             onClick={scrollToSection("pedagogy")}
             className='hover:text-nobel-gold transition-colors cursor-pointer uppercase'
           >
-            Pedagogy
+            Process
+          </a>
+          <a
+            href='#pedagogies'
+            onClick={scrollToSection("pedagogies")}
+            className='hover:text-nobel-gold transition-colors cursor-pointer uppercase'
+          >
+            Pedagogies
           </a>
           <a
             href='#insights'
@@ -585,8 +581,8 @@ const App: React.FC = () => {
                     Research & Planning
                   </h3>
                   <p className='text-sm text-stone-600 leading-relaxed'>
-                    Identify learning objectives and pedagogies, then draft
-                    learning experience design requirements
+                    Define learning goals, choose pedagogies, and draft design
+                    requirements.
                   </p>
                 </div>
 
@@ -598,8 +594,8 @@ const App: React.FC = () => {
                     Prototype Learning Experience
                   </h3>
                   <p className='text-sm text-stone-600 leading-relaxed'>
-                    Based on the requirements, draft content (e.g., blog,
-                    quizzes) and rapidly prototype with Claude Code
+                    Draft content — lessons, quizzes — and rapidly prototype
+                    with Claude Code.
                   </p>
                 </div>
 
@@ -608,11 +604,11 @@ const App: React.FC = () => {
                     <Users className='text-nobel-gold' size={24} />
                   </div>
                   <h3 className='font-serif text-xl text-stone-900 mb-3'>
-                    Iterative Refinement
+                    Iterate
                   </h3>
                   <p className='text-sm text-stone-600 leading-relaxed'>
-                    Continuously seek feedback from Subject Matter Experts and
-                    test with learners throughout the process
+                    Get feedback from experts, test with learners, and use AI to
+                    help audit for gaps.
                   </p>
                 </div>
               </div>
