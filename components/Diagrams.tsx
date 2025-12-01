@@ -67,7 +67,7 @@ const ARROWS: ArrowConfig[] = [
   // Forward flow
   {
     start: "define-goals",
-    end: "develop-content",
+    end: "content-experience-container",
     startAnchor: "right",
     endAnchor: "left",
   },
@@ -78,7 +78,7 @@ const ARROWS: ArrowConfig[] = [
     endAnchor: "left",
   },
   {
-    start: "design-experience",
+    start: "content-experience-container",
     end: "build",
     startAnchor: "right",
     endAnchor: "left",
@@ -126,7 +126,7 @@ const WORKFLOW_CARDS: CardProps[] = [
   {
     id: "define-goals",
     title: "Define Goals & Pedagogies",
-    icon: <Target size={ICON_SIZES.DEFAULT} className="text-stone-400" />,
+    icon: <Target size={ICON_SIZES.DEFAULT} className='text-stone-400' />,
     description:
       "Identify learning objectives and select appropriate pedagogical approaches",
     aiSupport:
@@ -136,7 +136,7 @@ const WORKFLOW_CARDS: CardProps[] = [
   {
     id: "develop-content",
     title: "Develop Core Content",
-    icon: <FileText size={ICON_SIZES.SMALL} className="text-stone-400" />,
+    icon: <FileText size={ICON_SIZES.SMALL} className='text-stone-400' />,
     description: "Create materials and quizzes aligned with learning goals",
     input: ["learning-goals.md"],
     aiSupport:
@@ -147,8 +147,9 @@ const WORKFLOW_CARDS: CardProps[] = [
   {
     id: "design-experience",
     title: "Design the Experience",
-    icon: <Sparkles size={ICON_SIZES.SMALL} className="text-stone-400" />,
+    icon: <Sparkles size={ICON_SIZES.SMALL} className='text-stone-400' />,
     description: "Document your vision for the learning experience",
+    input: ["content.md", "quiz.md"],
     aiSupport:
       "Use AI to draft requirements from design and product perspectives. Share examples to clarify your vision",
     output: ["requirements.md"],
@@ -157,7 +158,7 @@ const WORKFLOW_CARDS: CardProps[] = [
   {
     id: "build",
     title: "Build",
-    icon: <Code size={ICON_SIZES.DEFAULT} className="text-stone-400" />,
+    icon: <Code size={ICON_SIZES.DEFAULT} className='text-stone-400' />,
     description: "Put everything together to create the learning experience",
     input: ["content.md", "quiz.md", "requirements.md"],
     aiSupport:
@@ -170,18 +171,20 @@ const FEEDBACK_CARDS: BaseCardProps[] = [
   {
     id: "expert-review",
     title: "Expert Review",
-    icon: <UserCheck size={ICON_SIZES.DEFAULT} className="text-stone-400" />,
+    icon: <UserCheck size={ICON_SIZES.DEFAULT} className='text-stone-400' />,
   },
   {
     id: "learner-feedback",
     title: "Learner Feedback",
-    icon: <MessageCircle size={ICON_SIZES.DEFAULT} className="text-stone-400" />,
+    icon: (
+      <MessageCircle size={ICON_SIZES.DEFAULT} className='text-stone-400' />
+    ),
   },
 ];
 
 // --- UTILITY COMPONENTS ---
 const ListItem: React.FC<{ item: string }> = ({ item }) => (
-  <div className="text-xs text-stone-600 leading-relaxed bg-stone-50 rounded px-2 py-1">
+  <div className='text-xs text-stone-600 leading-relaxed bg-stone-50 rounded px-2 py-1'>
     {item}
   </div>
 );
@@ -190,11 +193,11 @@ const ListSection: React.FC<{ items: string[]; label: string }> = ({
   items,
   label,
 }) => (
-  <div className="mb-2">
-    <div className="text-[10px] font-bold text-stone-500 uppercase tracking-wide mb-1">
+  <div className='mb-2'>
+    <div className='text-[10px] font-bold text-stone-500 uppercase tracking-wide mb-1'>
       {label}
     </div>
-    <div className="space-y-1">
+    <div className='space-y-1'>
       {items.map((item, i) => (
         <ListItem key={i} item={item} />
       ))}
@@ -203,18 +206,18 @@ const ListSection: React.FC<{ items: string[]; label: string }> = ({
 );
 
 const AISupportSection: React.FC<{ aiSupport: string }> = ({ aiSupport }) => (
-  <div className="mt-auto pt-3 border-t border-stone-200">
-    <div className="bg-nobel-gold/5 rounded-lg p-3 border border-nobel-gold/20">
-      <div className="flex items-start gap-2">
+  <div className='mt-auto pt-3 border-t border-stone-200'>
+    <div className='bg-nobel-gold/5 rounded-lg p-3 border border-nobel-gold/20'>
+      <div className='flex items-start gap-2'>
         <Sparkles
           size={ICON_SIZES.AI_TIP}
-          className="text-nobel-gold mt-0.5 flex-shrink-0"
+          className='text-nobel-gold mt-0.5 flex-shrink-0'
         />
         <div>
-          <div className="text-[10px] font-bold text-nobel-gold uppercase tracking-wide mb-0.5">
+          <div className='text-[10px] font-bold text-nobel-gold uppercase tracking-wide mb-0.5'>
             Tips
           </div>
-          <div className="text-xs text-stone-700 leading-relaxed">
+          <div className='text-xs text-stone-700 leading-relaxed'>
             {aiSupport}
           </div>
         </div>
@@ -247,21 +250,25 @@ const Card: React.FC<CardProps> = ({
       id={id}
       className={`${baseClasses} ${activeClasses} ${variantClasses}`}
     >
-      <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-3">
-        <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center bg-nobel-gold/10">
+      <div className='flex items-center gap-2 md:gap-3 mb-2 md:mb-3'>
+        <div className='w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center bg-nobel-gold/10'>
           {icon}
         </div>
-        <h4 className="font-serif text-sm md:text-lg text-stone-900">{title}</h4>
+        <h4 className='font-serif text-sm md:text-lg text-stone-900'>
+          {title}
+        </h4>
       </div>
 
       {description && (
-        <div className="mb-2 md:mb-3">
-          <p className="text-xs text-stone-600 leading-relaxed">{description}</p>
+        <div className='mb-2 md:mb-3'>
+          <p className='text-xs text-stone-600 leading-relaxed'>
+            {description}
+          </p>
         </div>
       )}
 
-      {input && <ListSection items={input} label="Input" />}
-      {output && <ListSection items={output} label="Output" />}
+      {input && <ListSection items={input} label='Input' />}
+      {output && <ListSection items={output} label='Output' />}
       {aiSupport && <AISupportSection aiSupport={aiSupport} />}
     </div>
   );
@@ -279,10 +286,10 @@ const FeedbackCard: React.FC<BaseCardProps> = ({
       isActive ? "border-nobel-gold shadow-lg" : "border-stone-200"
     }`}
   >
-    <div className="w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center bg-nobel-gold/10">
+    <div className='w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center bg-nobel-gold/10'>
       {icon}
     </div>
-    <h4 className="font-serif text-sm md:text-lg text-stone-900">{title}</h4>
+    <h4 className='font-serif text-sm md:text-lg text-stone-900'>{title}</h4>
   </div>
 );
 
@@ -303,53 +310,57 @@ export const LearningWorkflowDiagram: React.FC = () => {
   const [expertReviewCard, learnerFeedbackCard] = FEEDBACK_CARDS;
 
   return (
-    <div className="p-4 md:p-8 bg-white rounded-xl border-2 border-stone-200 my-4 md:my-8 shadow-lg">
+    <div className='p-4 md:p-8 bg-white rounded-xl border-2 border-stone-200 my-4 md:my-8 shadow-lg'>
       <Xwrapper>
         <div
-          className="relative max-w-7xl mx-auto"
+          className='relative max-w-7xl mx-auto'
           style={{ position: "relative", zIndex: 1 }}
         >
           {/* Top Feedback - Expert Review */}
-          <div className="flex justify-center mb-4 md:mb-6">
-            <div className="w-full max-w-xs md:w-64">
+          <div className='flex justify-center mb-4 md:mb-6'>
+            <div className='w-full max-w-xs md:w-64'>
               <FeedbackCard {...expertReviewCard} />
             </div>
           </div>
 
           {/* Main workflow row */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-3 md:gap-4 relative">
-            <Card {...defineGoalsCard} />
+          <div className='grid grid-cols-1 md:grid-cols-4 gap-8 relative'>
+            <div className='my-auto'>
+              <Card {...defineGoalsCard} />
+            </div>
 
             {/* Central box: Content & Experience Creation */}
-            <div className="md:col-span-2 relative">
+            <div className='md:col-span-2 relative'>
               <div
-                id="content-experience-container"
-                className="bg-white rounded-xl border-2 p-3 md:p-4 transition-all duration-500 border-stone-200"
+                id='content-experience-container'
+                className='bg-white rounded-xl border-2 p-3 md:p-4 transition-all duration-500 border-stone-200'
               >
-                <h3 className="font-serif text-base md:text-lg text-stone-900 mb-3 md:mb-4 text-center">
+                <h3 className='font-serif text-base md:text-lg text-stone-900 mb-3 md:mb-4 text-center'>
                   Content & Experience Creation
                 </h3>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3">
+                <div className='grid grid-cols-1 sm:grid-cols-2 gap-8'>
                   <Card {...developContentCard} />
                   <Card {...designExperienceCard} />
                 </div>
               </div>
             </div>
 
-            <Card {...buildCard} />
+            <div className='my-auto'>
+              <Card {...buildCard} />
+            </div>
           </div>
 
           {/* Bottom Feedback - Learner Feedback */}
-          <div className="flex justify-center mt-4 md:mt-6">
-            <div className="w-full max-w-xs md:w-64">
+          <div className='flex justify-center mt-4 md:mt-6'>
+            <div className='w-full max-w-xs md:w-64'>
               <FeedbackCard {...learnerFeedbackCard} />
             </div>
           </div>
 
           {/* Arrows - Hidden on mobile, visible on md+ screens */}
           {mounted && (
-            <div className="hidden md:block">
+            <div className='hidden md:block'>
               {ARROWS.map((arrowConfig) => (
                 <Xarrow
                   key={`${arrowConfig.start}-${arrowConfig.end}`}
