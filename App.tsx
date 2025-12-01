@@ -387,8 +387,8 @@ const App: React.FC = () => {
             <div className='max-w-5xl mx-auto'>
               {/* Icon & Label */}
               <div className='flex justify-center mb-6'>
-                <div className='inline-flex items-center gap-3 px-4 py-2 bg-stone-800/80 backdrop-blur-sm border border-stone-700 rounded-full shadow-sm'>
-                  <Target className='text-nobel-gold' size={16} />
+                <div className='inline-flex items-center gap-2 px-3 py-1 bg-stone-800/80 backdrop-blur-sm border border-stone-700 rounded-full shadow-sm'>
+                  <Target className='text-nobel-gold' size={14} />
                   <span className='text-xs font-bold tracking-widest text-nobel-gold uppercase'>
                     The Challenge
                   </span>
@@ -645,15 +645,25 @@ const App: React.FC = () => {
         <section
           id='pedagogies'
           className={`bg-[#F5F4F0] relative min-h-screen flex flex-col justify-center ${
-            presentationMode ? "py-16 overflow-hidden" : "py-24"
+            presentationMode ? "py-12 overflow-hidden" : "py-16"
           }`}
         >
+          {/* className={`bg-[#F5F4F0] relative min-h-screen flex flex-col justify-center ${
+            presentationMode ? "py-16 overflow-hidden" : "py-24"
+          }`} */}
           <div className={`container mx-auto px-8 md:px-16`}>
-            <div className='text-center mb-8'>
-              <h2 className='font-serif text-4xl md:text-5xl mb-6 text-stone-900'>
+            <div className='text-center mb-6'>
+              {/* <div className='text-center mb-8'> */}
+              <div className='inline-flex items-center gap-2 px-3 py-1 bg-white text-stone-600 text-xs font-bold tracking-widest uppercase rounded-full mb-4 border border-stone-200'>
+                {/* <div className='inline-flex items-center gap-2 px-3 py-1 bg-white text-stone-600 text-xs font-bold tracking-widest uppercase rounded-full mb-6 border border-stone-200'> */}
+                <Lightbulb size={14} /> PEDAGOGICAL APPROACHES
+              </div>
+              <h2 className='font-serif text-4xl md:text-5xl mb-4 text-stone-900'>
+                {/* <h2 className='font-serif text-4xl md:text-5xl mb-6 text-stone-900'> */}
                 Pedagogies
               </h2>
-              <p className='text-lg text-stone-600 mb-8 leading-relaxed max-w-3xl mx-auto'>
+              <p className='text-lg text-stone-600 mb-6 leading-relaxed max-w-3xl mx-auto'>
+                {/* <p className='text-lg text-stone-600 mb-8 leading-relaxed max-w-3xl mx-auto'> */}
                 Research-backed methods that make abstract AI concepts click.
               </p>
             </div>
@@ -812,7 +822,7 @@ const App: React.FC = () => {
           <div className='container mx-auto px-8 md:px-16 relative z-10'>
             <div className='text-center mb-16'>
               <div className='inline-flex items-center gap-2 px-3 py-1 bg-stone-100 text-nobel-gold text-xs font-bold tracking-widest uppercase rounded-full mb-6 border border-stone-200'>
-                INSIGHTS
+                <Zap size={14} /> INSIGHTS
               </div>
               <h2 className='font-serif text-4xl md:text-5xl mb-6 text-stone-900'>
                 Lessons Learned
@@ -866,7 +876,7 @@ const App: React.FC = () => {
         >
           <div className='container mx-auto px-8 md:px-16'>
             <div className='max-w-4xl mx-auto text-center'>
-              <div className='inline-flex items-center gap-2 px-3 py-1 bg-white text-nobel-gold text-xs font-bold tracking-widest uppercase rounded-full mb-6 border border-stone-200 shadow-sm'>
+              <div className='inline-flex items-center gap-2 px-3 py-1 bg-white text-nobel-gold text-xs font-bold tracking-widest uppercase rounded-full mb-6 border border-stone-200'>
                 <MessageSquare size={14} /> GET IN TOUCH
               </div>
               <h2 className='font-serif text-3xl md:text-4xl mb-4 text-stone-900'>
