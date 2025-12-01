@@ -22,31 +22,6 @@ import {
   MessageSquare,
 } from "lucide-react";
 
-const FeatureCard = ({
-  icon: Icon,
-  title,
-  description,
-  delay,
-}: {
-  icon: any;
-  title: string;
-  description: string;
-  delay: string;
-}) => {
-  return (
-    <div
-      className='flex flex-col group animate-fade-in-up p-8 bg-white rounded-xl border border-stone-200 shadow-sm hover:shadow-md transition-all duration-300 hover:border-nobel-gold/50'
-      style={{ animationDelay: delay }}
-    >
-      <div className='w-12 h-12 bg-nobel-gold/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-nobel-gold/20 transition-colors'>
-        <Icon className='text-nobel-gold' size={24} />
-      </div>
-      <h3 className='font-serif text-xl text-stone-900 mb-3'>{title}</h3>
-      <p className='text-sm text-stone-600 leading-relaxed'>{description}</p>
-    </div>
-  );
-};
-
 const MetricCard = ({
   number,
   label,
@@ -834,7 +809,7 @@ const App: React.FC = () => {
 
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
               <div
-                className='flex flex-col group animate-fade-in-up p-8 bg-white rounded-xl border border-nobel-gold/40 shadow-md hover:shadow-lg transition-all duration-300'
+                className='flex flex-col group animate-fade-in-up p-8 bg-white rounded-xl border border-stone-200 shadow-sm hover:shadow-md transition-all duration-300 hover:border-nobel-gold/50'
                 style={{ animationDelay: "0s" }}
               >
                 <div className='w-12 h-12 bg-nobel-gold/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-nobel-gold/20 transition-colors'>
@@ -844,24 +819,36 @@ const App: React.FC = () => {
                   Racing Against Evolution
                 </h3>
                 <p className='text-sm text-stone-600 leading-relaxed'>
-                  Technology moves faster than traditional curriculum cycles.
+                  <strong className='text-stone-900 font-medium'>Technology moves faster than traditional curriculum cycles.</strong>{" "}
                   MCP itself evolved, making some of our content outdated before
-                  launch — a reminder that educators need tools that can adapt
-                  just as quickly.
+                  launch — a reminder that <strong className='text-stone-900 font-medium'>educators need tools that can adapt
+                  just as quickly.</strong>
                 </p>
               </div>
-              <FeatureCard
-                icon={Sparkles}
-                title='Sprinkle some stories'
-                description="AI makes narrative-driven learning practical at scale — generating relatable scenarios and examples tailored to each learner's background and prior knowledge. Why not use it to make learning more engaging?"
-                delay='0.1s'
-              />
-              <FeatureCard
-                icon={Users}
-                title='Bring in the Experts'
-                description='AI-generated errors are a real concern — but AI can also be part of the solution. It helps you reach more subject-matter experts and makes it easier for them to review and contribute.'
-                delay='0.2s'
-              />
+              <div
+                className='flex flex-col group animate-fade-in-up p-8 bg-white rounded-xl border border-stone-200 shadow-sm hover:shadow-md transition-all duration-300 hover:border-nobel-gold/50'
+                style={{ animationDelay: '0.1s' }}
+              >
+                <div className='w-12 h-12 bg-nobel-gold/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-nobel-gold/20 transition-colors'>
+                  <Sparkles className='text-nobel-gold' size={24} />
+                </div>
+                <h3 className='font-serif text-xl text-stone-900 mb-3'>Sprinkle some stories</h3>
+                <p className='text-sm text-stone-600 leading-relaxed'>
+                  <strong className='text-stone-900 font-medium'>AI makes narrative-driven learning practical at scale</strong> — generating relatable scenarios and examples tailored to each learner's background and prior knowledge. Why not use it to make learning more engaging?
+                </p>
+              </div>
+              <div
+                className='flex flex-col group animate-fade-in-up p-8 bg-white rounded-xl border border-stone-200 shadow-sm hover:shadow-md transition-all duration-300 hover:border-nobel-gold/50'
+                style={{ animationDelay: '0.2s' }}
+              >
+                <div className='w-12 h-12 bg-nobel-gold/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-nobel-gold/20 transition-colors'>
+                  <Users className='text-nobel-gold' size={24} />
+                </div>
+                <h3 className='font-serif text-xl text-stone-900 mb-3'>Bring in the Experts</h3>
+                <p className='text-sm text-stone-600 leading-relaxed'>
+                  AI-generated errors are a real concern — but <strong className='text-stone-900 font-medium'>AI can also be part of the solution.</strong> It helps you reach more subject-matter experts and makes it easier for them to review and contribute.
+                </p>
+              </div>
             </div>
           </div>
           <div className='absolute bottom-8 right-8 z-20'>
