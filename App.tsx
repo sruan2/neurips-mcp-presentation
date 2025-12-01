@@ -552,19 +552,37 @@ const App: React.FC = () => {
         <section
           id='pedagogy'
           className={`bg-white relative min-h-screen flex flex-col justify-center ${
-            presentationMode ? "py-16 overflow-hidden" : "py-24"
+            presentationMode ? "pt-8 pb-4 overflow-hidden" : "pt-12 pb-6"
           }`}
         >
+          {/* className={`bg-white relative min-h-screen flex flex-col justify-center ${
+            presentationMode ? "py-8 overflow-hidden" : "py-12"
+          }`} */}
+          {/* className={`bg-white relative min-h-screen flex flex-col justify-center ${
+            presentationMode ? "py-12 overflow-hidden" : "py-16"
+          }`} */}
+          {/* className={`bg-white relative min-h-screen flex flex-col justify-center ${
+            presentationMode ? "py-16 overflow-hidden" : "py-24"
+          }`} */}
           <div className={` mx-auto px-4`}>
             {/* Header Section - Centered */}
-            <div className='text-center mb-12'>
-              <div className='inline-flex items-center gap-2 px-3 py-1 bg-stone-100 text-stone-600 text-xs font-bold tracking-widest uppercase rounded-full mb-6 border border-stone-200'>
+            <div className='text-center mb-4 mt-3'>
+              {/* <div className='text-center mb-4'> */}
+              {/* <div className='text-center mb-6'> */}
+              {/* <div className='text-center mb-12'> */}
+              <div className='inline-flex items-center gap-2 px-3 py-1 bg-stone-100 text-stone-600 text-xs font-bold tracking-widest uppercase rounded-full mb-2 border border-stone-200'>
+                {/* <div className='inline-flex items-center gap-2 px-3 py-1 bg-stone-100 text-stone-600 text-xs font-bold tracking-widest uppercase rounded-full mb-3 border border-stone-200'> */}
+                {/* <div className='inline-flex items-center gap-2 px-3 py-1 bg-stone-100 text-stone-600 text-xs font-bold tracking-widest uppercase rounded-full mb-6 border border-stone-200'> */}
                 <BookOpen size={14} /> OUR PROCESS
               </div>
-              <h2 className='font-serif text-4xl md:text-5xl mb-6 text-stone-900'>
+              <h2 className='font-serif text-4xl md:text-5xl mb-2 text-stone-900'>
+                {/* <h2 className='font-serif text-4xl md:text-5xl mb-4 text-stone-900'> */}
+                {/* <h2 className='font-serif text-4xl md:text-5xl mb-6 text-stone-900'> */}
                 From Concept to Reality
               </h2>
-              <p className='text-lg text-stone-600 mb-8 leading-relaxed max-w-3xl mx-auto'>
+              <p className='text-lg text-stone-600 mb-3 leading-relaxed max-w-3xl mx-auto'>
+                {/* <p className='text-lg text-stone-600 mb-4 leading-relaxed max-w-3xl mx-auto'> */}
+                {/* <p className='text-lg text-stone-600 mb-8 leading-relaxed max-w-3xl mx-auto'> */}
                 How we built MCP Explorer with AI tools.
               </p>
             </div>
@@ -618,6 +636,7 @@ const App: React.FC = () => {
             )}
           </div>
           <div className='absolute bottom-8 right-8 z-20'>
+            {/* <div className='absolute bottom-16 right-8 z-20'> */}
             <NavigationButton targetId='pedagogies' />
           </div>
         </section>

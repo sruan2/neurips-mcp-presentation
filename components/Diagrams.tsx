@@ -178,7 +178,8 @@ const Card: React.FC<
   hoveredId,
 }) => {
   const baseClasses =
-    "relative bg-white rounded-xl border-2 p-3 md:p-4 transition-all duration-500 flex flex-col cursor-pointer";
+    "relative bg-white rounded-xl border-2 p-2 md:p-3 transition-all duration-500 flex flex-col cursor-pointer";
+    // "relative bg-white rounded-xl border-2 p-3 md:p-4 transition-all duration-500 flex flex-col cursor-pointer";
   const activeClasses = isActive
     ? "border-nobel-gold shadow-lg"
     : "border-stone-200";
@@ -207,7 +208,8 @@ const Card: React.FC<
       onMouseEnter={() => onHover?.(id)}
       onMouseLeave={() => onHover?.(undefined)}
     >
-      <div className='flex items-center gap-2 md:gap-3 mb-2 md:mb-3'>
+      <div className='flex items-center gap-2 md:gap-3 mb-1 md:mb-2'>
+        {/* <div className='flex items-center gap-2 md:gap-3 mb-2 md:mb-3'> */}
         <div className='w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center bg-nobel-gold/10'>
           {icon}
         </div>
@@ -217,7 +219,8 @@ const Card: React.FC<
       </div>
 
       {description && (
-        <div className='mb-2 md:mb-3'>
+        <div className='mb-1 md:mb-2'>
+          {/* <div className='mb-2 md:mb-3'> */}
           <p className='text-xs text-stone-600 leading-relaxed'>
             {description}
           </p>
@@ -226,7 +229,7 @@ const Card: React.FC<
 
       {input && <ListSection items={input} label='Input' />}
       {output && <ListSection items={output} label='Output' />}
-      {aiSupport && <AISupportSection aiSupport={aiSupport} />}
+      {/* {aiSupport && <AISupportSection aiSupport={aiSupport} />} */}
     </div>
   );
 };
@@ -242,9 +245,10 @@ const FeedbackCard: React.FC<
   return (
     <div
       id={id}
-      className={`bg-white rounded-xl border-2 p-3 md:p-4 flex items-center gap-2 md:gap-3 transition-all duration-500 cursor-pointer ${opacityClasses} ${
+      className={`bg-white rounded-xl border-2 p-2 md:p-3 flex items-center gap-2 md:gap-3 transition-all duration-500 cursor-pointer ${opacityClasses} ${
         isActive ? "border-nobel-gold shadow-lg" : "border-stone-200"
       }`}
+      // className={`bg-white rounded-xl border-2 p-3 md:p-4 flex items-center gap-2 md:gap-3 transition-all duration-500 cursor-pointer ${opacityClasses} ${
       onMouseEnter={() => onHover?.(id)}
       onMouseLeave={() => onHover?.(undefined)}
     >
@@ -423,7 +427,8 @@ export const LearningWorkflowDiagram: React.FC = () => {
   const isHovering = hoveredId !== undefined;
 
   return (
-    <div className='p-4 md:p-8 bg-white rounded-xl border-2 border-stone-200 my-4 md:my-8 shadow-lg'>
+    <div className='p-3 md:p-4 bg-transparent rounded-xl mt-0 mb-3 md:mb-4'>
+      {/* <div className='p-4 md:p-8 bg-white rounded-xl border-2 border-stone-200 my-4 md:my-8 shadow-lg'> */}
       <Xwrapper>
         <div
           className='relative max-w-7xl mx-auto'
@@ -461,7 +466,7 @@ export const LearningWorkflowDiagram: React.FC = () => {
               <div className='flex flex-col md:block gap-4'>
                 <div
                   id='content-experience-container'
-                  className={`bg-white rounded-xl border-2 p-3 md:p-4 transition-all duration-500 cursor-pointer ${
+                  className={`bg-white rounded-xl border-2 p-2 md:p-3 transition-all duration-500 cursor-pointer ${
                     isHovering &&
                     !activeNodes.has("content-experience-container") &&
                     hoveredId !== "develop-content" &&
@@ -473,6 +478,7 @@ export const LearningWorkflowDiagram: React.FC = () => {
                       ? "border-nobel-gold shadow-lg"
                       : "border-stone-200"
                   }`}
+                  // className={`bg-white rounded-xl border-2 p-3 md:p-4 transition-all duration-500 cursor-pointer ${
                   onMouseEnter={() =>
                     setHoveredId("content-experience-container")
                   }
