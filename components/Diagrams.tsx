@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Xarrow, { Xwrapper, xarrowPropsType } from "react-xarrows";
 import {
   MessageCircle,
@@ -60,65 +60,6 @@ const ARROW_CONFIG: Partial<xarrowPropsType> = {
   curveness: 0.6,
 } as const;
 
-const ARROWS: ArrowConfig[] = [
-  // Forward flow
-  {
-    start: "define-goals",
-    end: "content-experience-container",
-    startAnchor: "right",
-    endAnchor: "left",
-  },
-  {
-    start: "develop-content",
-    end: "design-experience",
-    startAnchor: "right",
-    endAnchor: "left",
-  },
-  {
-    start: "content-experience-container",
-    end: "build",
-    startAnchor: "right",
-    endAnchor: "left",
-  },
-  // Feedback loops - Expert Review
-  {
-    start: "develop-content",
-    end: "expert-review",
-    startAnchor: "top",
-    endAnchor: "left",
-    _cpx1Offset: -200,
-  },
-  {
-    start: "expert-review",
-    end: "content-experience-container",
-    startAnchor: "bottom",
-    endAnchor: "top",
-    curveness: 0.3,
-  },
-  {
-    start: "build",
-    end: "expert-review",
-    startAnchor: "top",
-    endAnchor: "right",
-    curveness: 0.8,
-  },
-  // Feedback loops - Learner Feedback
-  {
-    start: "build",
-    end: "learner-feedback",
-    startAnchor: "bottom",
-    endAnchor: "right",
-    curveness: 0.8,
-  },
-  {
-    start: "learner-feedback",
-    end: "content-experience-container",
-    startAnchor: "top",
-    endAnchor: "bottom",
-    curveness: 0.3,
-  },
-];
-
 const WORKFLOW_CARDS: CardProps[] = [
   {
     id: "define-goals",
@@ -161,21 +102,6 @@ const WORKFLOW_CARDS: CardProps[] = [
     aiSupport:
       "Use AI to audit accessibility and enhance the learning experience",
     output: ["Interactive Learning Experience"],
-  },
-];
-
-const FEEDBACK_CARDS: BaseCardProps[] = [
-  {
-    id: "expert-review",
-    title: "Expert Review",
-    icon: <UserCheck size={ICON_SIZES.DEFAULT} className='text-stone-400' />,
-  },
-  {
-    id: "learner-feedback",
-    title: "Learner Feedback",
-    icon: (
-      <MessageCircle size={ICON_SIZES.DEFAULT} className='text-stone-400' />
-    ),
   },
 ];
 
@@ -335,8 +261,98 @@ const FeedbackCard: React.FC<
 export const LearningWorkflowDiagram: React.FC = () => {
   const [defineGoalsCard, developContentCard, designExperienceCard, buildCard] =
     WORKFLOW_CARDS;
-  const [expertReviewCard, learnerFeedbackCard] = FEEDBACK_CARDS;
   const [hoveredId, setHoveredId] = useState<string | undefined>(undefined);
+  const [isMobile, setIsMobile] = useState(false);
+
+  const FEEDBACK_CARDS: BaseCardProps[] = [
+    {
+      id: `expert-review-${isMobile ? "mobile" : ""}`,
+      title: "Expert Review",
+      icon: <UserCheck size={ICON_SIZES.DEFAULT} className='text-stone-400' />,
+    },
+    {
+      id: "learner-feedback",
+      title: "Learner Feedback",
+      icon: (
+        <MessageCircle size={ICON_SIZES.DEFAULT} className='text-stone-400' />
+      ),
+    },
+  ];
+
+  const [expertReviewCard, learnerFeedbackCard] = FEEDBACK_CARDS;
+
+  const ARROWS: ArrowConfig[] = [
+    // Forward flow
+    {
+      start: "define-goals",
+      end: "content-experience-container",
+      startAnchor: isMobile ? "bottom" : "right",
+      endAnchor: isMobile ? "top" : "left",
+    },
+    {
+      start: "develop-content",
+      end: "design-experience",
+      startAnchor: isMobile ? "bottom" : "right",
+      endAnchor: isMobile ? "top" : "left",
+    },
+    {
+      start: "content-experience-container",
+      end: "build",
+      startAnchor: isMobile ? "bottom" : "right",
+      endAnchor: isMobile ? "top" : "left",
+    },
+    // Feedback loops - Expert Review
+    {
+      start: "develop-content",
+      end: `expert-review-${isMobile ? "mobile" : ""}`,
+      startAnchor: isMobile ? "bottom" : "top",
+      endAnchor: isMobile ? "top" : "left",
+      _cpx1Offset: isMobile ? 100 : -200,
+    },
+    {
+      start: `expert-review-${isMobile ? "mobile" : ""}`,
+      end: "content-experience-container",
+      startAnchor: isMobile ? "top" : "bottom",
+      endAnchor: isMobile ? "bottom" : "top",
+      curveness: 0.3,
+    },
+    {
+      start: "build",
+      end: `expert-review-${isMobile ? "mobile" : ""}`,
+      startAnchor: isMobile ? "right" : "top",
+      endAnchor: isMobile ? "right" : "right",
+      _cpx1Offset: isMobile ? 100 : undefined,
+      curveness: 0.8,
+    },
+    // Feedback loops - Learner Feedback
+    {
+      start: "build",
+      end: "learner-feedback",
+      startAnchor: isMobile ? "right" : "bottom",
+      endAnchor: "right",
+      _cpx1Offset: isMobile ? 100 : undefined,
+      curveness: 0.8,
+    },
+    {
+      start: "learner-feedback",
+      end: "content-experience-container",
+      startAnchor: "top",
+      endAnchor: "bottom",
+      curveness: 0.3,
+    },
+  ];
+
+  // Detect mobile screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // 768px is Tailwind's md breakpoint
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Get all connected node IDs for a given node
   const getConnectedNodes = (nodeId: string | undefined): Set<string> => {
@@ -414,17 +430,19 @@ export const LearningWorkflowDiagram: React.FC = () => {
           className='relative max-w-7xl mx-auto'
           style={{ position: "relative", zIndex: 1 }}
         >
-          {/* Top Feedback - Expert Review */}
-          <div className='flex justify-center mb-4 md:mb-6'>
-            <div className='w-full max-w-xs md:w-64'>
-              <FeedbackCard
-                {...expertReviewCard}
-                isActive={activeNodes.has(expertReviewCard.id!)}
-                onHover={setHoveredId}
-                isHovering={isHovering}
-              />
+          {/* Top Feedback - Expert Review Hide on Mobile*/}
+          {!isMobile && (
+            <div className='flex justify-center mb-4 md:mb-6'>
+              <div className='w-full max-w-xs md:w-64'>
+                <FeedbackCard
+                  {...expertReviewCard}
+                  isActive={activeNodes.has(expertReviewCard.id!)}
+                  onHover={setHoveredId}
+                  isHovering={isHovering}
+                />
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Main workflow row */}
           <div className='grid grid-cols-1 md:grid-cols-4 gap-8 relative'>
@@ -440,44 +458,46 @@ export const LearningWorkflowDiagram: React.FC = () => {
 
             {/* Central box: Content & Experience Creation */}
             <div className='md:col-span-2 relative'>
-              <div
-                id='content-experience-container'
-                className={`bg-white rounded-xl border-2 p-3 md:p-4 transition-all duration-500 cursor-pointer ${
-                  isHovering &&
-                  !activeNodes.has("content-experience-container") &&
-                  hoveredId !== "develop-content" &&
-                  hoveredId !== "design-experience"
-                    ? "opacity-30"
-                    : "opacity-100"
-                } ${
-                  activeNodes.has("content-experience-container")
-                    ? "border-nobel-gold shadow-lg"
-                    : "border-stone-200"
-                }`}
-                onMouseEnter={() =>
-                  setHoveredId("content-experience-container")
-                }
-                onMouseLeave={() => setHoveredId(undefined)}
-              >
-                <h3 className='font-serif text-base md:text-lg text-stone-900 mb-3 md:mb-4 text-center'>
-                  Content & Experience Creation
-                </h3>
+              <div className='flex flex-col md:block gap-4'>
+                <div
+                  id='content-experience-container'
+                  className={`bg-white rounded-xl border-2 p-3 md:p-4 transition-all duration-500 cursor-pointer ${
+                    isHovering &&
+                    !activeNodes.has("content-experience-container") &&
+                    hoveredId !== "develop-content" &&
+                    hoveredId !== "design-experience"
+                      ? "opacity-30"
+                      : "opacity-100"
+                  } ${
+                    activeNodes.has("content-experience-container")
+                      ? "border-nobel-gold shadow-lg"
+                      : "border-stone-200"
+                  }`}
+                  onMouseEnter={() =>
+                    setHoveredId("content-experience-container")
+                  }
+                  onMouseLeave={() => setHoveredId(undefined)}
+                >
+                  <h3 className='font-serif text-base md:text-lg text-stone-900 mb-3 md:mb-4 text-center'>
+                    Content & Experience Creation
+                  </h3>
 
-                <div className='grid grid-cols-1 sm:grid-cols-2 gap-8'>
-                  <Card
-                    {...developContentCard}
-                    isActive={activeNodes.has(developContentCard.id!)}
-                    onHover={setHoveredId}
-                    isHovering={isHovering}
-                    hoveredId={hoveredId}
-                  />
-                  <Card
-                    {...designExperienceCard}
-                    isActive={activeNodes.has(designExperienceCard.id!)}
-                    onHover={setHoveredId}
-                    isHovering={isHovering}
-                    hoveredId={hoveredId}
-                  />
+                  <div className='grid grid-cols-1 sm:grid-cols-2 gap-8'>
+                    <Card
+                      {...developContentCard}
+                      isActive={activeNodes.has(developContentCard.id!)}
+                      onHover={setHoveredId}
+                      isHovering={isHovering}
+                      hoveredId={hoveredId}
+                    />
+                    <Card
+                      {...designExperienceCard}
+                      isActive={activeNodes.has(designExperienceCard.id!)}
+                      onHover={setHoveredId}
+                      isHovering={isHovering}
+                      hoveredId={hoveredId}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -494,6 +514,19 @@ export const LearningWorkflowDiagram: React.FC = () => {
           </div>
 
           {/* Bottom Feedback - Learner Feedback */}
+          {isMobile && (
+            <div className='flex justify-center mt-4 md:mt-6'>
+              <div className='w-full max-w-xs'>
+                <FeedbackCard
+                  {...expertReviewCard}
+                  isActive={activeNodes.has(expertReviewCard.id!)}
+                  onHover={setHoveredId}
+                  isHovering={isHovering}
+                />
+              </div>
+            </div>
+          )}
+
           <div className='flex justify-center mt-4 md:mt-6'>
             <div className='w-full max-w-xs md:w-64'>
               <FeedbackCard
@@ -506,12 +539,13 @@ export const LearningWorkflowDiagram: React.FC = () => {
           </div>
 
           {/* Arrows - Hidden on mobile, visible on md+ screens */}
-          <div className='hidden md:block'>
+          <div>
             {ARROWS.map((arrowConfig) => {
               const isActive = isArrowActive(
                 arrowConfig.start,
                 arrowConfig.end
               );
+
               return (
                 <Xarrow
                   key={`${arrowConfig.start}-${arrowConfig.end}`}
