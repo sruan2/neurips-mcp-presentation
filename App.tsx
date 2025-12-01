@@ -893,20 +893,55 @@ const App: React.FC = () => {
 
               <div className='flex justify-center mb-8'>
                 <div className='relative w-32 h-32'>
-                  {/* Floating particles - similar to hero scene */}
-                  <div className='absolute top-2 right-4 w-2 h-2 bg-stone-400/30 rounded-full animate-pulse' style={{ animationDuration: '3s' }}></div>
-                  <div className='absolute bottom-4 left-2 w-1.5 h-1.5 bg-stone-500/20 rounded-full animate-pulse' style={{ animationDuration: '4s', animationDelay: '0.5s' }}></div>
-                  <div className='absolute top-8 left-6 w-1 h-1 bg-nobel-gold/40 rounded-full animate-pulse' style={{ animationDuration: '3.5s', animationDelay: '1s' }}></div>
-                  <div className='absolute bottom-8 right-6 w-1 h-1 bg-stone-400/25 rounded-full animate-pulse' style={{ animationDuration: '4.5s', animationDelay: '1.5s' }}></div>
+                  {/* Colorful floating particles - matching hero scene colors */}
+                  <div className='absolute top-2 right-4 w-2 h-2 rounded-full animate-pulse' style={{ backgroundColor: '#9333EA', animationDuration: '3s', opacity: 0.6 }}></div>
+                  <div className='absolute bottom-4 left-2 w-1.5 h-1.5 rounded-full animate-pulse' style={{ backgroundColor: '#06B6D4', animationDuration: '4s', animationDelay: '0.5s', opacity: 0.5 }}></div>
+                  <div className='absolute top-8 left-6 w-1.5 h-1.5 rounded-full animate-pulse' style={{ backgroundColor: '#10B981', animationDuration: '3.5s', animationDelay: '1s', opacity: 0.6 }}></div>
+                  <div className='absolute bottom-8 right-6 w-1.5 h-1.5 rounded-full animate-pulse' style={{ backgroundColor: '#F59E0B', animationDuration: '4.5s', animationDelay: '1.5s', opacity: 0.5 }}></div>
+                  <div className='absolute top-1/2 right-2 w-1 h-1 rounded-full animate-pulse' style={{ backgroundColor: '#EF4444', animationDuration: '3.8s', animationDelay: '0.8s', opacity: 0.6 }}></div>
+                  <div className='absolute top-1/3 left-3 w-1 h-1 rounded-full animate-pulse' style={{ backgroundColor: '#4F46E5', animationDuration: '4.2s', animationDelay: '1.2s', opacity: 0.5 }}></div>
 
-                  {/* Subtle rotating ring - like orbital paths */}
-                  <div className='absolute inset-0 border-2 border-stone-300/20 rounded-full animate-spin' style={{ animationDuration: '20s' }}></div>
-                  <div className='absolute inset-2 border border-stone-300/10 rounded-full animate-spin' style={{ animationDuration: '15s', animationDirection: 'reverse' }}></div>
+                  {/* Colorful rotating rings - like orbital paths with gradient effects */}
+                  <div className='absolute inset-0 rounded-full animate-spin' style={{
+                    border: '2px solid transparent',
+                    backgroundImage: 'linear-gradient(white, white), linear-gradient(90deg, #9333EA, #06B6D4, #10B981)',
+                    backgroundOrigin: 'border-box',
+                    backgroundClip: 'padding-box, border-box',
+                    animationDuration: '20s',
+                    opacity: 0.3
+                  }}></div>
+                  <div className='absolute inset-2 rounded-full animate-spin' style={{
+                    border: '2px solid transparent',
+                    backgroundImage: 'linear-gradient(white, white), linear-gradient(180deg, #F59E0B, #EF4444, #C5A059)',
+                    backgroundOrigin: 'border-box',
+                    backgroundClip: 'padding-box, border-box',
+                    animationDuration: '15s',
+                    animationDirection: 'reverse',
+                    opacity: 0.25
+                  }}></div>
 
-                  {/* Main icon container - floating effect */}
+                  {/* Main icon - color transition */}
                   <div className='absolute inset-0 flex items-center justify-center'>
-                    <div className='relative w-20 h-20 bg-white/50 backdrop-blur-sm rounded-full flex items-center justify-center border border-stone-300/40 shadow-sm transition-all duration-500 hover:scale-110 animate-bounce' style={{ animationDuration: '3s' }}>
-                      <BookOpen size={36} className='text-nobel-gold' strokeWidth={2} />
+                    <div className='relative transition-all duration-500 hover:scale-110'>
+                      <BookOpen size={64} strokeWidth={2} style={{
+                        filter: 'drop-shadow(0 0 12px rgba(197, 160, 89, 0.4)) drop-shadow(0 0 20px rgba(147, 51, 234, 0.3))',
+                        stroke: 'url(#bookGradient)'
+                      }} />
+                      <svg width="0" height="0" style={{ position: 'absolute' }}>
+                        <defs>
+                          <linearGradient id="bookGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style={{ stopColor: '#E5D4A1', stopOpacity: 1 }}>
+                              <animate attributeName="stop-color" values="#E5D4A1; #C4B5FD; #7DD3FC; #86EFAC; #FCD34D; #FCA5A5; #E5D4A1" dur="8s" repeatCount="indefinite" />
+                            </stop>
+                            <stop offset="50%" style={{ stopColor: '#C4B5FD', stopOpacity: 1 }}>
+                              <animate attributeName="stop-color" values="#C4B5FD; #7DD3FC; #86EFAC; #FCD34D; #FCA5A5; #E5D4A1; #C4B5FD" dur="8s" repeatCount="indefinite" />
+                            </stop>
+                            <stop offset="100%" style={{ stopColor: '#7DD3FC', stopOpacity: 1 }}>
+                              <animate attributeName="stop-color" values="#7DD3FC; #86EFAC; #FCD34D; #FCA5A5; #E5D4A1; #C4B5FD; #7DD3FC" dur="8s" repeatCount="indefinite" />
+                            </stop>
+                          </linearGradient>
+                        </defs>
+                      </svg>
                     </div>
                   </div>
                 </div>
